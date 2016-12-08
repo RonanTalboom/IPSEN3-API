@@ -1,5 +1,14 @@
 package main.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import main.View;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.security.auth.Subject;
+import java.security.Principal;
+
 /**
  * Dit is de beheerder model class. Deze is verantwoordelijk voor alle gegevens
  * van de beheerder.
@@ -7,24 +16,49 @@ package main.Model;
  * @author Murtaza Aydogdu
  * @version 1.0, Nov 2016
  */
-public class Beheerder {
+public class Beheerder implements Principal{
     /**
      * Dit zijn de standaard waardes van de beheerders
      * id, voornaam, achternaam, adres, postcode,
      * woonplaats, telefoon, email, wachtwoord en
-     * rechten_id, Actief.
+     * rechten_id, actief.
      */
+    @JsonView(View.Public.class)
     private int id;
+
+    @JsonView(View.Public.class)
     private String voornaam;
+
+    @JsonView(View.Public.class)
     private String achternaam;
+
+    @JsonView(View.Public.class)
     private String adres;
+
+    @JsonView(View.Public.class)
     private String postcode;
+
+    @JsonView(View.Public.class)
     private String woonplaats;
+
+    @JsonView(View.Public.class)
     private String telefoon;
+
+    @NotEmpty
+    @JsonView(View.Public.class)
+    @Email
     private String email;
+
+    @NotEmpty
+    @JsonView(View.Public.class)
     private String wachtwoord;
+
+
+    @JsonView(View.Public.class)
     private int rechten_id;
-    private boolean Actief = false;
+
+    @JsonView(View.Public.class)
+    private boolean actief = false;
 
     /**
      * Methode die de id van de beheerder returned
@@ -189,10 +223,10 @@ public class Beheerder {
 
     /**
      * Methode die de isactief van de beheerder returned
-     * @return Actief
+     * @return actief
      */
     public boolean isActief() {
-        return Actief;
+        return actief;
     }
 
     /**
@@ -200,7 +234,19 @@ public class Beheerder {
      * @param actief
      */
     public void setActief(boolean actief) {
-        Actief = actief;
+        this.actief = actief;
     }
 
+
+    @Override
+    @JsonIgnore
+    public String getName()
+    {
+        return voornaam + " " + achternaam;
+    }
+
+    @Override
+    public boolean implies(Subject subject) {
+        return false;
+    }
 }

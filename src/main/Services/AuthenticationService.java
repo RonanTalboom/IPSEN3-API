@@ -5,7 +5,9 @@
  */
 package main.Services;
 
+import main.Model.Beheerder;
 import main.Model.Klant;
+import main.Persistence.BeheerderDAO;
 import main.Persistence.KlantDAO;
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
@@ -22,37 +24,40 @@ import java.util.Optional;
  * @author Peter van Vliet
  */
 @Singleton
-public class AuthenticationService implements Authenticator<BasicCredentials, Klant>, Authorizer<Klant>
+public class AuthenticationService implements Authenticator<BasicCredentials, Beheerder>, Authorizer<Beheerder>
 {
-    private final KlantDAO userDAO;
+    private final BeheerderDAO userDAO;
 
     @Inject
-    public AuthenticationService(KlantDAO userDAO)
+    public AuthenticationService(BeheerderDAO userDAO)
     {
         this.userDAO = userDAO;
     }
 
+    /**
+     * valideren moet nog een user van db hebben
+     * @param credentials
+     * @return
+     * @throws AuthenticationException
+     */
     @Override
-    public Optional<Klant> authenticate(BasicCredentials credentials) throws AuthenticationException
+    public Optional<Beheerder> authenticate(BasicCredentials credentials) throws AuthenticationException
     {
 
-        userDAO.select();
-        for(Klant k : userDAO.getKlantlist()){
-            if(k.getEmail().equals(credentials.getPassword()) && k.getEmail().equals(credentials.getUsername())){
-                return Optional.of(k);
+        userDAO.selectBeheerder();
+        for(Beheerder b : userDAO.getBeheerders()){
+
+            if(b.getEmail().equals(credentials.getUsername()) && b.getWachtwoord().equals(credentials.getPassword())){
+                return Optional.of(b);
             }
         }
         return Optional.empty();
     }
 
     @Override
-    public boolean authorize(Klant user, String roleName)
+    public boolean authorize(Beheerder user, String roleName)
     {
-        if(roleName.equals("GUEST")){
-            return true;
 
-        }else{
-            return false;
-        }
+        return true;
     }
 }

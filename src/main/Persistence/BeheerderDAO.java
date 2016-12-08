@@ -2,9 +2,13 @@ package main.Persistence;
 
 
 //import Controller.LoginController;
+import com.google.inject.Singleton;
 import main.Model.Beheerder;
 import javafx.stage.Stage;
+
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Deze class wordt gebruikt met de database te praten.
@@ -13,6 +17,7 @@ import java.sql.SQLException;
  * @author Murtaza Aydogdu
  * @version 1.0, Nov 2016
  */
+@Singleton
 public class BeheerderDAO extends ConnectDAO {
 
     /**
@@ -32,6 +37,7 @@ public class BeheerderDAO extends ConnectDAO {
      * Hier word een nieuwe object gedacaleerd.
      */
     private Stage stage;
+
 
     /**
      * Zodra deze methode wordt aangeroepen wordt de beheerder geset.
@@ -53,6 +59,8 @@ public class BeheerderDAO extends ConnectDAO {
      * Hier word
      */
     private int rows;
+
+    private Collection<Beheerder> beheerders = new ArrayList<Beheerder>();
     /**
      * Hier wordt een String aangemaakt voor de errorBeschrijving.
      */
@@ -224,6 +232,7 @@ public class BeheerderDAO extends ConnectDAO {
      * @param query
      */
     public void setBeheerderGegevens(String query){
+        beheerders.clear();
         connectToDB();
         try{
             resultSet = statement.executeQuery(query);
@@ -242,6 +251,8 @@ public class BeheerderDAO extends ConnectDAO {
                 beheerder.setWachtwoord(resultSet.getString("wachtwoord"));
                 beheerder.setRechten_id(resultSet.getInt("rechten_id"));
                 beheerder.setActief(resultSet.getBoolean("isactief"));
+
+                beheerders.add(beheerder);
 
 //                beheerders.add(beheerder);
                 connection.close();
@@ -266,5 +277,9 @@ public class BeheerderDAO extends ConnectDAO {
      */
     public String getErrorBeschrijving() {
         return errorBeschrijving;
+    }
+
+    public Collection<Beheerder> getBeheerders() {
+        return beheerders;
     }
 }

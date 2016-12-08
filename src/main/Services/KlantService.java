@@ -1,5 +1,8 @@
 package main.Services;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import main.Model.Beheerder;
 import main.Model.Klant;
 import main.Persistence.KlantDAO;
 
@@ -8,6 +11,7 @@ import java.util.*;
 /**
  *
  */
+@Singleton
 public class KlantService {
 
 
@@ -21,6 +25,7 @@ public class KlantService {
     /**
      * @param dao
      */
+    @Inject
     public KlantService(KlantDAO dao) {
         this.dao = dao;
     }
@@ -38,16 +43,13 @@ public class KlantService {
      */
     public Klant get(int id) {
         dao.select();
-        Klant rklant = new Klant();
         for(Klant klant: dao.getKlantlist()) {
             if(klant.getId() == (id)){
-                rklant = klant;
+                return klant;
             }
 
         }
-        return  rklant.equals(null)
-                ? null
-                : rklant;
+        return null;
 
     }
 
@@ -64,9 +66,9 @@ public class KlantService {
      * @param id
      * @param klant
      */
-    public void update(Klant authenticator, int id, Klant klant) {
-        dao.insert();
+    public void update(Beheerder authenticator, int id, Klant klant) {
         dao.setKlant(klant);
+        dao.update(id);
     }
 
     /**

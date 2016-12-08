@@ -31,7 +31,7 @@ public abstract class ConnectDAO {
     /**
      * Hier wordt de IP  opgeslagen.
      */
-    protected String ip = "localhost";
+    protected String ip = "145.97.16.190";
     /**
      * Hier wordt de poortnummer  opgeslagen.
      */
@@ -39,15 +39,16 @@ public abstract class ConnectDAO {
     /**
      * Hier wordt de Dbnaam  opgeslagen.
      */
-    protected String DbNaam = "ipsen2";
+    protected String DbNaam = "IPSEN3G09";
+//    IPSEN3G09
     /**
      * Hier wordt de DbGebruikersnaam  opgeslagen.
      */
-    protected String DbGebruikersnaam = "postgres";
+    protected String DbGebruikersnaam = "IPSEN3G9";
     /**
      * Hier wordt de DbWachtwoord  opgeslagen.
      */
-    protected String DbWachtwoord = "root";
+    protected String DbWachtwoord = "IPSEN3G9";
 
     /**
      * Deze methode zorgt ervoor dat de driver ingeladen wordt

@@ -3,6 +3,8 @@ package main.Resources;
 
 
 
+import io.dropwizard.auth.Auth;
+import main.Model.Beheerder;
 import main.Model.Klant;
 import main.Services.KlantService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -31,11 +33,8 @@ public class KlantResource {
     /**
      *
      */
-    public KlantService service;
+    public final KlantService service;
 
-    /**
-     * 
-     */
 
     /**
      * @param service
@@ -62,7 +61,7 @@ public class KlantResource {
     @Path("/{id}")
     @JsonView(View.Public.class)
     @RolesAllowed("GUEST")
-    public Klant retrieve(int id) {
+    public Klant retrieve(@PathParam("id") int id) {
         return service.get(id);
     }
 
@@ -86,8 +85,9 @@ public class KlantResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
     @RolesAllowed("GUEST")
-    public void update(int id, Klant authenticator, Klant klant) {
-       service.add(klant);
+    public void update(@PathParam("id") int id, @Auth Beheerder authenticator, Klant klant) {
+
+        service.add(klant);
     }
 
     /**
@@ -96,7 +96,7 @@ public class KlantResource {
     @DELETE
     @Path("/{id}")
     @RolesAllowed("ADMIN") // ???
-    public void delete(int id) {
+    public void delete(@PathParam("id") int id) {
         service.delete(id);
     }
 

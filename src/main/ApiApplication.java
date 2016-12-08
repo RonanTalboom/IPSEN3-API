@@ -1,5 +1,6 @@
 package main;
 
+import main.Model.Beheerder;
 import main.Model.Klant;
 import main.Services.AuthenticationService;
 import com.google.inject.Module;
@@ -65,7 +66,7 @@ public class ApiApplication extends Application<ApiConfiguration>
     {
         Builder guiceBuilder = GuiceBundle.<ApiConfiguration>newBuilder()
                 .addModule(module)
-                .enableAutoConfig(new String[] { "API" })
+                .enableAutoConfig(new String[] { "main" })
                 .setConfigClass(configurationClass);
 
         return guiceBuilder.build();
@@ -77,7 +78,7 @@ public class ApiApplication extends Application<ApiConfiguration>
         ApiUnauthorizedHandler unauthorizedHandler = guiceBundle.getInjector().getInstance(ApiUnauthorizedHandler.class);
         
         environment.jersey().register(new AuthDynamicFeature(
-            new BasicCredentialAuthFilter.Builder<Klant>()
+            new BasicCredentialAuthFilter.Builder<Beheerder>()
                 .setAuthenticator(authenticationService)
                 .setAuthorizer(authenticationService)
                 .setRealm("SUPER SECRET STUFF")
@@ -86,7 +87,7 @@ public class ApiApplication extends Application<ApiConfiguration>
         );
         
         environment.jersey().register(RolesAllowedDynamicFeature.class);
-        environment.jersey().register(new AuthValueFactoryProvider.Binder<>(Klant.class));
+        environment.jersey().register(new AuthValueFactoryProvider.Binder<>(Beheerder.class));
     }
     
     private void configureClientFilter(Environment environment)

@@ -1,5 +1,6 @@
 package main.Persistence;
 
+import com.google.inject.Singleton;
 import main.Model.Klant;
 import main.Persistence.ConnectDAO;
 
@@ -14,6 +15,7 @@ import java.util.Collection;
  * @author Mike,Shaban, Mohamed El Baze
  * @version 0.1
  */
+@Singleton
 public class KlantDAO extends ConnectDAO {
 
     /**
