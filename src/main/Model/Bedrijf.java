@@ -1,4 +1,12 @@
 package main.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import main.View;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.security.auth.Subject;
+import java.security.Principal;
 import java.util.ArrayList;
 
 /**
@@ -8,21 +16,47 @@ import java.util.ArrayList;
  * @version 0.1
  * @date 10/13/16
  */
-public class Bedrijf {
+public class Bedrijf implements Principal {
     /**
      * Dit zijn de standaard waardes van de bedrijven
-     * id, bedrijfsnaam, adres, postcode, woonplaats,
+     * id, bedrijfsnaam, adres, postcode, website,
      * plaats, contactpersoon, telefoon, email en Tags
      */
+    @JsonView(View.Public.class)
     private int id;
+    @NotEmpty
+    @Length(min = 3, max = 30)
+    @JsonView(View.Public.class)
     private String bedrijfsnaam;
+    @NotEmpty
+    @Length(min = 3, max = 100)
+    @JsonView(View.Public.class)
     private String adres;
+    @NotEmpty
+    @Length(min = 6,max = 6)
+    @JsonView(View.Public.class)
     private String postcode;
-    private String woonplaats;
+    @NotEmpty
+    @Length(min = 3, max = 30)
+    @JsonView(View.Public.class)
+    private String website;
+    @NotEmpty
+    @Length(min = 3, max = 30)
+    @JsonView(View.Public.class)
     private String plaats;
+    @NotEmpty
+    @Length(min = 3, max = 100)
+    @JsonView(View.Public.class)
     private String contactpersoon;
+    @NotEmpty
+    @Length(min = 3, max = 100)
+    @JsonView(View.Public.class)
     private String telefoon;
+    @NotEmpty
+    @Length(min = 3, max = 100)
+    @JsonView(View.Public.class)
     private String email;
+    @JsonIgnore
     private ArrayList<Integer> arrTags = new ArrayList<>();
     /**
      * Methode die de id van de bedrijf returned
@@ -81,18 +115,18 @@ public class Bedrijf {
         this.postcode = postcode;
     }
     /**
-     * Methode die de woonplaats van de bedrijf returned
-     * @return woonplaats
+     * Methode die de website van de bedrijf returned
+     * @return website
      */
-    public String getWoonplaats() {
-        return woonplaats;
+    public String getWebsite() {
+        return website;
     }
     /**
-     * Methode die de woonplaats van de bedrijf returned
-     * @param woonplaats
+     * Methode die de website van de bedrijf returned
+     * @param website
      */
-    public void setWoonplaats(String woonplaats) {
-        this.woonplaats = woonplaats;
+    public void setWebsite(String website) {
+        this.website = website;
     }
     /**
      * Methode die de plaats van de bedrijf returned
@@ -172,5 +206,16 @@ public class Bedrijf {
     @Override
     public String toString() {
         return bedrijfsnaam+", "+adres;
+    }
+
+    @Override
+    @JsonIgnore
+    public String getName() {
+        return bedrijfsnaam+", "+adres;
+    }
+
+    @Override
+    public boolean implies(Subject subject) {
+        return false;
     }
 }

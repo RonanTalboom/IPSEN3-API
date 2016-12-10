@@ -1,9 +1,11 @@
 package main.Persistence;
 
-import main.Model.Bedrijf;
+import com.google.inject.Singleton;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import main.Model.Bedrijf;
+
 import java.sql.SQLException;
+import java.util.Collection;
 
 /**
  * Deze class wordt gebruikt met de database te praten. Het is verantwoordelijk voor het uitvoeren van queries(DLL)
@@ -12,6 +14,7 @@ import java.sql.SQLException;
  * @version 0.1
  * @date 10/12/16
  */
+@Singleton
 public class BedrijfDAO extends ConnectDAO {
 
     /**
@@ -23,7 +26,7 @@ public class BedrijfDAO extends ConnectDAO {
      * Hier wordt wordt een ObservableList van Bedrijf opgeslagen.
      * Deze bevat de bedrijven die worden opgehaald met de select methode.
      */
-    private ObservableList<Bedrijf> observersBedrijven = FXCollections.observableArrayList();
+    private Collection<Bedrijf> observersBedrijven = FXCollections.observableArrayList();
     /**
      * Hier wordt error bericht opgeslagen zodat deze geprint kan worden..
      */
@@ -43,11 +46,11 @@ public class BedrijfDAO extends ConnectDAO {
         try {
             connectToDB();
             preparedStatement = connection.prepareStatement("UPDATE bedrijf SET bedrijfsnaam=? ,adres=?" +
-                    " ,postcode=? ,woonplaats=? ,plaats=? ,contactpersoon=? ,telefoon=? ,email=? WHERE id=?");
+                    " ,postcode=? ,website=? ,plaats=? ,contactpersoon=? ,telefoon=? ,email=? WHERE id=?");
             preparedStatement.setString(1, bedrijf.getBedrijfsnaam());
             preparedStatement.setString(2, bedrijf.getAdres());
             preparedStatement.setString(3, bedrijf.getPostcode());
-            preparedStatement.setString(4, bedrijf.getWoonplaats());
+            preparedStatement.setString(4, bedrijf.getWebsite());
             preparedStatement.setString(5, bedrijf.getPlaats());
             preparedStatement.setString(6, bedrijf.getContactpersoon());
             preparedStatement.setString(7, bedrijf.getTelefoon());
@@ -90,11 +93,11 @@ public class BedrijfDAO extends ConnectDAO {
                 connectToDB();
 
                 preparedStatement = connection.prepareStatement("INSERT INTO bedrijf (bedrijfsnaam ,adres,postcode," +
-                        "woonplaats,plaats,contactpersoon,telefoon ,email) VALUES (?,?,?,?,?,?,?,?)");
+                        "website,plaats,contactpersoon,telefoon ,email) VALUES (?,?,?,?,?,?,?,?)");
                 preparedStatement.setString(1, bedrijf.getBedrijfsnaam());
                 preparedStatement.setString(2, bedrijf.getAdres());
                 preparedStatement.setString(3, bedrijf.getPostcode());
-                preparedStatement.setString(4, bedrijf.getWoonplaats());
+                preparedStatement.setString(4, bedrijf.getWebsite());
                 preparedStatement.setString(5, bedrijf.getPlaats());
                 preparedStatement.setString(6, bedrijf.getContactpersoon());
                 preparedStatement.setString(7, bedrijf.getTelefoon());
@@ -142,7 +145,7 @@ public class BedrijfDAO extends ConnectDAO {
                 bedrijf.setBedrijfsnaam(resultSet.getString("bedrijfsnaam"));
                 bedrijf.setAdres(resultSet.getString("adres"));
                 bedrijf.setPostcode(resultSet.getString("postcode"));
-                bedrijf.setWoonplaats(resultSet.getString("woonplaats"));
+                bedrijf.setWebsite(resultSet.getString("website"));
                 bedrijf.setPlaats(resultSet.getString("plaats"));
                 bedrijf.setContactpersoon(resultSet.getString("contactpersoon"));
                 bedrijf.setTelefoon(resultSet.getString("telefoon"));
@@ -177,7 +180,7 @@ public class BedrijfDAO extends ConnectDAO {
      */
     public int getID(){
         String query = "SELECT id FROM bedrijf WHERE bedrijfsnaam ='"+ bedrijf.getBedrijfsnaam()+"'AND adres ='"+ bedrijf.getAdres()+
-                "'AND woonplaats='"+ bedrijf.getWoonplaats()+"'";
+                "'AND website='"+ bedrijf.getWebsite()+"'";
         return runIDstatement(query);
     }
 
@@ -185,7 +188,7 @@ public class BedrijfDAO extends ConnectDAO {
      * Deze methode geeft een lijst met bedrijven van de datebase terug.
      * @return observersBedrijven
      */
-    public ObservableList<Bedrijf> getObserversBedrijven() {
+    public Collection<Bedrijf> getObserversBedrijven() {
         return observersBedrijven;
     }
 

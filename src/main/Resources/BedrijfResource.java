@@ -1,69 +1,93 @@
-//package Resources;
-//
-//import java.util.*;
-//
-///**
-// *
-// */
-//public class BedrijfResource {
-//
-//    /**
-//     * Default constructor
-//     */
-//    public BedrijfResource() {
-//    }
-//
-//    /**
-//     *
-//     */
-//    public BedrijfService service;
-//
-//    /**
-//     *
-//     */
-//    public BedrijfService 1;
-//
-//    /**
-//     * @param service
-//     */
-//    public void BedrijfResource(BedrijfService service) {
-//        // TODO implement here
-//    }
-//
-//    /**
-//     *
-//     */
-//    public void retrieveAll() {
-//        // TODO implement here
-//    }
-//
-//    /**
-//     * @param id
-//     */
-//    public void retrieve(int id) {
-//        // TODO implement here
-//    }
-//
-//    /**
-//     * @param bedrijf
-//     */
-//    public void create(Bedrijf bedrijf) {
-//        // TODO implement here
-//    }
-//
-//    /**
-//     * @param id
-//     * @param tag
-//     */
-//    public void update(int id, Tag tag) {
-//        // TODO implement here
-//    }
-//
-//    /**
-//     * @param id
-//     */
-//    public void delete(int id) {
-//        // TODO implement here
-//    }
-//
-//}
+package main.Resources;
+
+import com.fasterxml.jackson.annotation.JsonView;
+import com.google.inject.Singleton;
+import main.Model.Bedrijf;
+import main.Services.BedrijfService;
+import main.View;
+
+import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.Collection;
+
+/**
+ *
+ */
+@Singleton
+@Path("/bedrijven")
+@Produces(MediaType.APPLICATION_JSON)
+public class BedrijfResource {
+    /**
+     *
+     */
+    private final BedrijfService service;
+
+    /**
+     * Default constructor
+     * @param service
+     */
+    @Inject
+    public BedrijfResource(BedrijfService service) {
+        this.service = service;
+    }
+
+
+
+    /**
+     *
+     */
+    @GET
+    @JsonView(View.Public.class)
+    @RolesAllowed("GUEST")
+    public Collection<Bedrijf> retrieveAll() {
+        return service.getAll();
+    }
+
+    /**
+     * @param id
+     */
+    @GET
+    @Path("/{id}")
+    @JsonView(View.Public.class)
+    @RolesAllowed("GUEST")
+    public Bedrijf retrieve(@PathParam("id") int id) {
+        return service.get(id);
+    }
+
+    /**
+     * @param bedrijf
+     */
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JsonView(View.Protected.class)
+    public void create(Bedrijf bedrijf) {
+        service.add(bedrijf);
+    }
+
+    /**
+     * @param id
+     * @param bedrijf
+     */
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JsonView(View.Protected.class)
+    @RolesAllowed("GUEST")
+    public void update(@PathParam("id") int id, Bedrijf bedrijf) {
+        bedrijf.setId(id);
+        service.update(id,bedrijf);
+    }
+
+    /**
+     * @param id
+     */
+    @DELETE
+    @Path("/{id}")
+    @RolesAllowed("ADMIN")
+    public void delete(@PathParam("id") int id) {
+        service.delete(id);
+    }
+
+}
