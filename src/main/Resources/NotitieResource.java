@@ -1,4 +1,4 @@
-package Resources;
+package main.Resources;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.inject.Singleton;
@@ -8,10 +8,7 @@ import main.View;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.*;
 
@@ -19,14 +16,15 @@ import java.util.*;
  *
  */
 @Singleton
-@Path("/Notities")
+@Produces(MediaType.APPLICATION_JSON)
+@Path("/notities")
 public class NotitieResource {
 
 
     /**
      *
      */
-    public final NotitieService service;
+    public NotitieService service;
 
     @Inject
     public void NotitieResource(NotitieService service) {

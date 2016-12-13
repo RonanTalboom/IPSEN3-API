@@ -7,6 +7,8 @@ import main.Model.Notitie;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 /**
@@ -34,6 +36,8 @@ public class NotitieDAO extends ConnectDAO{
      * Deze bevat de klantgegevens die wordt gebruikt in de statements
      */
     private Klant klant =  new Klant();
+
+    private Collection<Notitie>  notities = new ArrayList<Notitie>();
 
     /**
      * Hier wordt error bericht opgeslagen zodat deze geprint kan worden..
@@ -154,6 +158,7 @@ public class NotitieDAO extends ConnectDAO{
      * @throws SQLException
      */
     public void vulObserversNotities(ResultSet resultSet) throws SQLException {
+        notities.clear();
         while(resultSet.next()) {
             klant = new Klant();
             bedrijf = new Bedrijf();
@@ -171,6 +176,7 @@ public class NotitieDAO extends ConnectDAO{
             bedrijf.setAdres(resultSet.getString("woonplaats"));
             notitie.setKlantNaam(klant);
             notitie.setBedrijfNaam(bedrijf);
+            notities.add(notitie);
         }
     }
     /**
@@ -275,4 +281,9 @@ public class NotitieDAO extends ConnectDAO{
     public int getRows() {
         return rows;
     }
+
+    public Collection<Notitie> getNotities() {
+        return notities;
+    }
+
 }

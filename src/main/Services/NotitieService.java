@@ -33,21 +33,22 @@ public class NotitieService {
      */
     public Collection<Notitie> getAll() {
        dao.select();
-       return null;
+       return dao.getNotities();
     }
 
     /**
      * @param notitieid
      */
-    public void get(int notitieid) {
-        // TODO implement here
+    public Notitie get(int notitieid) {
+        dao.select();
+        return dao.getNotitie();
     }
 
     /**
      * @param notitie
      */
-    public void add(Notitie notitie, int klantid, int bedrijfid) {
-        // TODO implement here
+    public void add(Notitie notitie) {
+        dao.insert();
     }
 
     /**
@@ -55,20 +56,22 @@ public class NotitieService {
      * @param notitie
      */
     public void update(int id, Notitie notitie) {
-        // TODO implement here
+        dao.setNotitie(notitie);
+        dao.update(id);
     }
 
     /**
      * @param id
      */
     public void delete(int id) {
-        // TODO implement here
+        dao.delete(id);
     }
 
 
     public Collection<Notitie> getKlantNotitie(Klant klant){
         dao.setKlant(klant);
         dao.filterKlantNotitie();
+        return dao.getNotities();
     }
 
 }
