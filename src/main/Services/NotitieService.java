@@ -2,6 +2,7 @@ package main.Services;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import main.Model.Bedrijf;
 import main.Model.Klant;
 import main.Model.Notitie;
 import main.Persistence.NotitieDAO;
@@ -48,6 +49,7 @@ public class NotitieService {
      * @param notitie
      */
     public void add(Notitie notitie) {
+        dao.setNotitie(notitie);
         dao.insert();
     }
 
@@ -71,6 +73,12 @@ public class NotitieService {
     public Collection<Notitie> getKlantNotitie(Klant klant){
         dao.setKlant(klant);
         dao.filterKlantNotitie();
+        return dao.getNotities();
+    }
+
+    public Collection<Notitie> getBedrijfNotitie(Bedrijf bedrijf){
+        dao.setBedrijf(bedrijf);
+        dao.select();
         return dao.getNotities();
     }
 

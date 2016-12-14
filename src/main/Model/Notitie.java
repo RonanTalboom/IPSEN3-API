@@ -1,5 +1,13 @@
 package main.Model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import main.View;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.security.auth.Subject;
+import javax.validation.constraints.NotNull;
+import java.security.Principal;
 import java.util.Date;
 
 /**
@@ -8,20 +16,40 @@ import java.util.Date;
  * @author Shaban Jama, Mohammed El Baze
  * @version 1.0, November 2016
  */
-public class Notitie {
+public class Notitie implements Principal{
     /**
      * Dit zijn de standaard waardes van de klant
      * id, titel, beschrijving, datum, bedrijfID,
      * klantID, gebruikerID, klantNaam, bedrijfNaam
      */
+
+    @JsonView(View.Public.class)
     private int id;
+
+    @JsonView(View.Public.class)
+    @NotEmpty
+    @NotNull
+    @NotBlank
     private String titel;
+
+    @JsonView(View.Public.class)
+    @NotEmpty
+    @NotNull
+    @NotBlank
     private String beschrijving;
+
+    @JsonView(View.Public.class)
     private Date datum;
+
+    @JsonView(View.Public.class)
     private int bedrijfID;
+    @JsonView(View.Public.class)
     private int klantID;
+    @JsonView(View.Public.class)
     private int gebruikerID;
+    @JsonView(View.Public.class)
     private Klant klantNaam;
+    @JsonView(View.Public.class)
     private Bedrijf bedrijfNaam;
 
     /**
@@ -140,5 +168,15 @@ public class Notitie {
      */
     public void setBedrijfNaam(Bedrijf bedrijfNaam) {
         this.bedrijfNaam = bedrijfNaam;
+    }
+
+    @Override
+    public String getName() {
+        return titel;
+    }
+
+    @Override
+    public boolean implies(Subject subject) {
+        return false;
     }
 }

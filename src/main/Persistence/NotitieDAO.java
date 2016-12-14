@@ -55,6 +55,12 @@ public class NotitieDAO extends ConnectDAO{
     /**
      * Deze methode is verantwoordelijk voor het aanpassen van een notitie in de tabel.
      */
+    /**
+     *
+     *
+     * inplaats van id van de notitie de id die als param is meegenomen gebruiken
+     * @param id
+     */
     @Override
     public void update(int id) {
         try {
@@ -64,10 +70,10 @@ public class NotitieDAO extends ConnectDAO{
                     "WHERE id=?");
             preparedStatement.setString(1,notitie.getTitel());
             preparedStatement.setString(2,notitie.getBeschrijving());
-            preparedStatement.setInt(3,notitie.getBedrijfID());
-            preparedStatement.setInt(4,notitie.getKlantID());
+            preparedStatement.setInt(3,notitie.getBedrijfID() == 0 ? null : notitie.getBedrijfID());
+            preparedStatement.setInt(4,notitie.getKlantID() == 0 ? null : notitie.getKlantID());
             preparedStatement.setInt(5,notitie.getGebruikerID());
-            preparedStatement.setInt(6,notitie.getId());
+            preparedStatement.setInt(6,id);
             rows = preparedStatement.executeUpdate();
             closeConnection();
         } catch (SQLException e) {
@@ -102,8 +108,8 @@ public class NotitieDAO extends ConnectDAO{
                     "klant_id,gebruiker_id) VALUES (?,?,?,?,?)");
             preparedStatement.setString(1,notitie.getTitel());
             preparedStatement.setString(2,notitie.getBeschrijving());
-            preparedStatement.setInt(3,notitie.getBedrijfID());
-            preparedStatement.setInt(4,notitie.getKlantID());
+            preparedStatement.setInt(3,notitie.getBedrijfID() == 0 ? null : notitie.getBedrijfID());
+            preparedStatement.setInt(4,notitie.getKlantID() == 0 ? null : notitie.getKlantID());
             preparedStatement.setInt(5,notitie.getGebruikerID());
             rows = preparedStatement.executeUpdate();
             closeConnection();
