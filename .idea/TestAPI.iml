@@ -106,5 +106,6 @@
     <orderEntry type="library" name="postgresql-9.4.1212.jre6" level="project" />
     <orderEntry type="library" name="junit:junit-dep:4.6" level="project" />
     <orderEntry type="library" name="com.mashape.unirest:unirest-java:1.4.9" level="project" />
+    <orderEntry type="library" name="postgresql-9.4.1211.jre6" level="project" />
   </component>
 </module>
