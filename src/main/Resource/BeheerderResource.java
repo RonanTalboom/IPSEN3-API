@@ -1,4 +1,4 @@
-package main.Resources;
+package main.Resource;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.inject.Inject;
