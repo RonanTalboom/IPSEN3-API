@@ -1,28 +1,28 @@
 package main.Services;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import main.Model.Tag;
 import main.Persistence.TagDAO;
+
+import java.util.Collection;
 
 /**
  *
  */
-public class TagService {
-
-    /**
-     * Default constructor
-     */
-    public TagService() {
-    }
+@Singleton
+public class
+TagService {
 
     /**
      *
      */
     public TagDAO dao;
 
-
     /**
      * @param dao
      */
+    @Inject
     public void TagService(TagDAO dao) {
         this.dao = dao;
     }
@@ -30,22 +30,24 @@ public class TagService {
     /**
      *
      */
-    public void getAll() {
-        // TODO implement here
+    public Collection<Tag> getAll() {
+        dao.select();
+        return dao.getObserversTags();
     }
 
-    /**
-     * @param id
-     */
-    public void get(int id) {
-        // TODO implement here
-    }
+//    /**
+//     * @param id
+//     */
+//    public void get(int id) {
+//        dao.select();
+//    }
 
     /**
      * @param tag
      */
     public void add(Tag tag) {
-        // TODO implement here
+        dao.setTag(tag);
+        dao.insert();
     }
 
     /**
@@ -53,14 +55,15 @@ public class TagService {
      * @param tag
      */
     public void update(int id, Tag tag) {
-        // TODO implement here
+        dao.setTag(tag);
+        dao.update(id);
     }
 
     /**
      * @param id
      */
     public void delete(int id) {
-        // TODO implement here
+        dao.delete(id);
     }
 
 }

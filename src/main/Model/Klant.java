@@ -1,4 +1,7 @@
 package main.Model;
+import com.fasterxml.jackson.annotation.JsonView;
+import main.View;
+
 import javax.security.auth.Subject;
 import java.security.Principal;
 import java.sql.Date;
@@ -8,14 +11,16 @@ import java.util.ArrayList;
  * Dit is de klant class. Hier worden gegevens van de klant opgeslagen
  * Created by Mike on 12-10-2016.
  */
-public class Klant implements Principal {
+public class Klant { //implements principal?? que pasa??
     /**
      * Dit zijn de standaard waardes van de klant
      * id, voornaam, achternaam, adres, postcode,
      * woonplaats, geboorteDatum, telefoon, LinkedIn en
      * email
      */
+//    @JsonView(View.Public.class)
     private int id;
+
     private String voornaam;
     private String achternaam;
     private String adres;
@@ -185,18 +190,18 @@ public class Klant implements Principal {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return voornaam + " " + achternaam;
-    }
+//    @Override
+//    public String toString() {
+//        return voornaam + " " + achternaam;
+//    }
 
-    @Override
-    public String getName() {
-        return null;
-    }
-
-    @Override
-    public boolean implies(Subject subject) {
-        return false;
-    }
+//    @Override
+//    public String getName() {
+//        return null;
+//    }
+//
+//    @Override
+//    public boolean implies(Subject subject) {
+//        return false;
+//    }
 }

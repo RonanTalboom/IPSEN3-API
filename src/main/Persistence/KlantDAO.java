@@ -5,6 +5,7 @@ import main.Model.Klant;
 import main.Persistence.ConnectDAO;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 
@@ -68,6 +69,7 @@ public class KlantDAO extends ConnectDAO {
         query = "UPDATE klant SET voornaam = ?, achternaam = ?, adres " +
                 "= ?, postcode = ?, woonplaats = ?, geboortedatum = ?," +
                 "telefoon = ?, linkedin = ?,email = ?  WHERE id ='" + klant.getId() + "'";
+        System.out.println("DAO"+ klant.getId());
         setKlantGegevens(query);
     }
 
@@ -118,6 +120,7 @@ public class KlantDAO extends ConnectDAO {
     private void getKlantGegevens(String query) {
         connectToDB();
         try {
+            klantlist = new ArrayList<>();
             /*connectToDB doet alleen van statement.conn */
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();

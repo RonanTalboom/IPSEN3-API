@@ -6,7 +6,6 @@ import com.google.common.net.MediaType;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.sun.tools.internal.ws.processor.model.Response;
 import org.junit.Test;
 import org.junit.runner.Request;
 
