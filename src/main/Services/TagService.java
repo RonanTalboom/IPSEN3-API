@@ -34,12 +34,18 @@ public class TagService {
         return dao.getObserversTags();
     }
 
-//    /**
-//     * @param id
-//     */
-//    public void get(int id) {
-//        dao.select();
-//    }
+    /**
+     * @param id
+     */
+    public Tag get(int id) {
+        dao.select();
+        for (Tag tag: dao.getObserversTags()){
+            if (tag.getId() == (id)) {
+                return tag;
+            }
+        }
+        return null;
+    }
 
     /**
      * @param tag
