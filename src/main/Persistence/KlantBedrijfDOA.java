@@ -211,7 +211,7 @@ public class KlantBedrijfDOA extends ConnectDAO{
             bedrijf.setBedrijfsnaam(resultSet.getString("bedrijfsnaam"));
             bedrijf.setAdres(resultSet.getString("adres"));
             bedrijf.setPostcode(resultSet.getString("postcode"));
-            bedrijf.setWoonplaats(resultSet.getString("woonplaats"));
+            bedrijf.setWebsite(resultSet.getString("website"));
             bedrijf.setPlaats(resultSet.getString("plaats"));
             bedrijf.setContactpersoon(resultSet.getString("contactpersoon"));
             bedrijf.setTelefoon(resultSet.getString("telefoon"));
