@@ -1,50 +1,57 @@
-package main.Resources;
+package main.Resource;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+
+
+
 import io.dropwizard.auth.Auth;
 import main.Model.Beheerder;
-import main.Services.BeheerderService;
-import main.View;
+import main.Model.Klant;
+import main.Services.KlantService;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.google.inject.Singleton;
 
 import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
+import main.View;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.*;
 
 /**
- *
+ * 
  */
 @Singleton
-@Path("/beheerders")
+@Path("/klanten")
 @Produces(MediaType.APPLICATION_JSON)
-public class BeheerderResource {
+public class KlantResource {
+
+
+
+
 
     /**
      *
      */
-    public BeheerderService service;
+    public final KlantService service;
 
 
     /**
      * @param service
      */
     @Inject
-    public void BeheerderResource(BeheerderService service) {
+    public KlantResource(KlantService service) {
         this.service = service;
     }
 
     /**
-     *
+     * 
      */
-
     @GET
     @JsonView(View.Public.class)
     @RolesAllowed("GUEST")
-    public Collection<Beheerder> retrieveAll() {
+    public Collection<Klant> retrieveAll() {
         return service.getAll();
-
     }
 
     /**
@@ -54,34 +61,33 @@ public class BeheerderResource {
     @Path("/{id}")
     @JsonView(View.Public.class)
     @RolesAllowed("GUEST")
-    public Beheerder retrieve(@PathParam("id") int id) {
+    public Klant retrieve(@PathParam("id") int id) {
         return service.get(id);
     }
 
     /**
-     * @param beheerder
+     * @param klant
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @JsonView(View.Public.class)
-    public void create(Beheerder beheerder) {
-        service.add(beheerder);
+    @JsonView(View.Protected.class)
+    public void create(Klant klant) {
+        service.add(klant);
     }
 
     /**
-     * @param id
-     * @param authenticator
-     * @param beheerder
+     * @param id 
+     * @param authenticator 
+     * @param klant
      */
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
     @RolesAllowed("GUEST")
-    public void update(@PathParam("id") int id, @Auth Beheerder authenticator, Beheerder beheerder) {
+    public void update(@PathParam("id") int id, @Auth Beheerder authenticator, Klant klant) {
 
-        beheerder.setId(id);
-        service.update(authenticator,id,beheerder);
+        service.add(klant);
     }
 
     /**
@@ -89,7 +95,7 @@ public class BeheerderResource {
      */
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("GUEST")
+    @RolesAllowed("ADMIN") // ???
     public void delete(@PathParam("id") int id) {
         service.delete(id);
     }
@@ -97,11 +103,11 @@ public class BeheerderResource {
     /**
      * @param authenticator
      */
-    @GET
+    @DELETE
     @Path("/me")
-    @RolesAllowed("GUEST")
-    public Beheerder authenticate(@Auth Beheerder authenticator) {
-        return service.me(authenticator);
+    @RolesAllowed("ADMIN") // ???
+    public void authenticate(Klant authenticator) {
+        // TODO implement here
     }
 
 }

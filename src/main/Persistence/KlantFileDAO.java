@@ -15,7 +15,7 @@ import java.sql.Types;
  * @author drynl, Mohammed El Baze
  * @version 0.1
  */
-class KlantFileDao extends ConnectDAO {
+class KlantFileDAO extends ConnectDAO {
     /**
      * Hier wordt de klant  opgeslagen
      */
