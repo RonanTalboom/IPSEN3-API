@@ -68,7 +68,7 @@ public class TagDAO extends ConnectDAO{
         try {
             connectToDB();
             preparedStatement = connection.prepareStatement("DELETE FROM tag WHERE id = ?");
-            preparedStatement.setInt(1,tag.getId());
+            preparedStatement.setInt(1,id);
             rows = preparedStatement.executeUpdate();
             closeConnection();
         } catch (SQLException e) {
@@ -104,6 +104,7 @@ public class TagDAO extends ConnectDAO{
      */
     @Override
     public void select() {
+        System.out.println("Vraag naar data in database");
         observersTags.clear();
         try {
             connectToDB();
