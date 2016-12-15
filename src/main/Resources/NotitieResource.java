@@ -7,6 +7,7 @@ import main.Model.Klant;
 import main.Model.Notitie;
 import main.Services.NotitieService;
 import main.View;
+import org.junit.runners.Parameterized;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -85,29 +86,29 @@ public class NotitieResource {
      */
     @DELETE
     @Path("/{id}")
-    @JsonView(View.Protected.class)
     @RolesAllowed("BEHEERDER")
-    public void delete(int id) {
+    public void delete(@PathParam("id") int id) {
         service.delete(id);
     }
 
 
     @GET
-    @Path("/notitieklant")
+    @Path("/klant/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
     @RolesAllowed("BEHEERDER")
-    public Collection<Notitie> klantNotitie(Klant klant) {
-        return service.getKlantNotitie(klant);
+    public Collection<Notitie> klantNotitie(@PathParam("id") int id) {
+
+        return service.getKlantNotitie(id);
     }
 
     @GET
-    @Path("/notitiebedrijf")
+    @Path("/bedrijf/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
     @RolesAllowed("BEHEERDER")
-    public Collection<Notitie> klantBedrijf(Bedrijf bedrijf) {
-        return service.getBedrijfNotitie(bedrijf);
+    public Collection<Notitie> klantBedrijf(@PathParam("id")int id) {
+        return service.getBedrijfNotitie(id);
     }
 
 }

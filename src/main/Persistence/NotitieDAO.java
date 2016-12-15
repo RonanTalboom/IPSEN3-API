@@ -1,10 +1,12 @@
 package main.Persistence;
 
 
+import main.ErrorHandling.ExceptionDAO;
 import main.Model.Bedrijf;
 import main.Model.Klant;
 import main.Model.Notitie;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -70,14 +72,25 @@ public class NotitieDAO extends ConnectDAO{
                     "WHERE id=?");
             preparedStatement.setString(1,notitie.getTitel());
             preparedStatement.setString(2,notitie.getBeschrijving());
-            preparedStatement.setInt(3,notitie.getBedrijfID() == 0 ? null : notitie.getBedrijfID());
-            preparedStatement.setInt(4,notitie.getKlantID() == 0 ? null : notitie.getKlantID());
+
+            if (notitie.getBedrijfID() == 0){
+                preparedStatement.setNull(4,java.sql.Types.INTEGER);
+            }else{
+                preparedStatement.setInt(3,notitie.getBedrijfID());
+            }
+
+            if((notitie.getKlantID() == 0)){
+                preparedStatement.setNull(4,java.sql.Types.INTEGER);
+            }else{
+                preparedStatement.setInt(4,notitie.getKlantID());
+
+            }
             preparedStatement.setInt(5,notitie.getGebruikerID());
             preparedStatement.setInt(6,id);
             rows = preparedStatement.executeUpdate();
             closeConnection();
         } catch (SQLException e) {
-            errorBeschrijving = e.getLocalizedMessage();
+            throw new ExceptionDAO(e.getLocalizedMessage());
         }
     }
 
@@ -89,11 +102,11 @@ public class NotitieDAO extends ConnectDAO{
         try {
             connectToDB();
             preparedStatement = connection.prepareStatement("DELETE FROM notitie WHERE id = ?");
-            preparedStatement.setInt(1,notitie.getId());
+            preparedStatement.setInt(1,id);
             rows = preparedStatement.executeUpdate();
             closeConnection();
         } catch (SQLException e) {
-            errorBeschrijving = e.getLocalizedMessage();
+            throw new ExceptionDAO(e.getLocalizedMessage());
         }
     }
 
@@ -108,13 +121,21 @@ public class NotitieDAO extends ConnectDAO{
                     "klant_id,gebruiker_id) VALUES (?,?,?,?,?)");
             preparedStatement.setString(1,notitie.getTitel());
             preparedStatement.setString(2,notitie.getBeschrijving());
-            preparedStatement.setInt(3,notitie.getBedrijfID() == 0 ? null : notitie.getBedrijfID());
-            preparedStatement.setInt(4,notitie.getKlantID() == 0 ? null : notitie.getKlantID());
+            if (notitie.getBedrijfID() == 0){
+                preparedStatement.setNull(4,java.sql.Types.INTEGER);
+            }else{
+                preparedStatement.setInt(3,notitie.getBedrijfID());
+            }
+            if((notitie.getKlantID() == 0)){
+                preparedStatement.setNull(4,java.sql.Types.INTEGER);
+            }else{
+                preparedStatement.setInt(4,notitie.getKlantID());
+            }
             preparedStatement.setInt(5,notitie.getGebruikerID());
             rows = preparedStatement.executeUpdate();
             closeConnection();
         } catch (SQLException e) {
-            errorBeschrijving = e.getLocalizedMessage();
+            throw new ExceptionDAO(e.getLocalizedMessage());
         }
     }
 
@@ -133,10 +154,28 @@ public class NotitieDAO extends ConnectDAO{
             vulObserversNotities(resultSet);
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new ExceptionDAO(e.getLocalizedMessage());
         }
     }
 
+    /**
+     Deze methode is verantwoordelijk voor het uitlezen van een de notities in de tabel van een specifieke bedrijf.
+     */
+    public void filterBedrijfNotitie(){
+
+        try {
+            connectToDB();
+            preparedStatement = connection.prepareStatement("SELECT notitie.*, klant.achternaam,klant.voornaam, " +
+                    "bedrijf.bedrijfsnaam,bedrijf.woonplaats FROM notitie JOIN klant ON notitie.klant_id = klant.id JOIN bedrijf " +
+                    "on notitie.bedrijf_id = bedrijf.id WHERE bedrijf_id = ?");
+            preparedStatement.setInt(1,klant.getId());
+            resultSet = preparedStatement.executeQuery();
+            vulObserversNotities(resultSet);
+            connection.close();
+        } catch (SQLException e) {
+            throw new ExceptionDAO(e.getLocalizedMessage());
+        }
+    }
     /**
      * Deze methode is verantwoordelijk voor het uitlezen van alle notities in de tabel.
      */
@@ -145,14 +184,12 @@ public class NotitieDAO extends ConnectDAO{
 
         try {
             connectToDB();
-            preparedStatement = connection.prepareStatement("SELECT notitie.*, klant.achternaam,klant.voornaam, " +
-                    "bedrijf.bedrijfsnaam,bedrijf.woonplaats FROM notitie JOIN klant ON notitie.klant_id = klant.id \n" +
-                    "  JOIN bedrijf on notitie.bedrijf_id = bedrijf.id");
+            preparedStatement = connection.prepareStatement("SELECT notitie.* FROM notitie ");
             resultSet = preparedStatement.executeQuery();
             vulObserversNotities(resultSet);
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new ExceptionDAO(e.getLocalizedMessage());
         }
 
     }
@@ -176,10 +213,10 @@ public class NotitieDAO extends ConnectDAO{
             notitie.setBedrijfID(resultSet.getInt("bedrijf_id"));
             notitie.setKlantID(resultSet.getInt("klant_id"));
             notitie.setGebruikerID(resultSet.getInt("gebruiker_id"));
-            klant.setVoornaam(resultSet.getString("voornaam"));
-            klant.setAchternaam(resultSet.getString("achternaam"));
-            bedrijf.setBedrijfsnaam(resultSet.getString("bedrijfsnaam"));
-            bedrijf.setAdres(resultSet.getString("woonplaats"));
+//            klant.setVoornaam(resultSet.getString("voornaam"));
+//            klant.setAchternaam(resultSet.getString("achternaam"));
+//            bedrijf.setBedrijfsnaam(resultSet.getString("bedrijfsnaam"));
+//            bedrijf.setAdres(resultSet.getString("woonplaats"));
             notitie.setKlantNaam(klant);
             notitie.setBedrijfNaam(bedrijf);
             notities.add(notitie);

@@ -70,15 +70,19 @@ public class NotitieService {
     }
 
 
-    public Collection<Notitie> getKlantNotitie(Klant klant){
+    public Collection<Notitie> getKlantNotitie(int id){
+        Klant klant = new Klant();
+        klant.setId(id);
         dao.setKlant(klant);
         dao.filterKlantNotitie();
         return dao.getNotities();
     }
 
-    public Collection<Notitie> getBedrijfNotitie(Bedrijf bedrijf){
+    public Collection<Notitie> getBedrijfNotitie(int id){
+        Bedrijf bedrijf = new Bedrijf();
+        bedrijf.setId(id);
         dao.setBedrijf(bedrijf);
-        dao.select();
+        dao.filterBedrijfNotitie();
         return dao.getNotities();
     }
 
