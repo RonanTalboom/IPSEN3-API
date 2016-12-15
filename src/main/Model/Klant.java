@@ -1,9 +1,4 @@
 package main.Model;
-import com.fasterxml.jackson.annotation.JsonView;
-import main.View;
-
-import javax.security.auth.Subject;
-import java.security.Principal;
 import java.sql.Date;
 import java.util.ArrayList;
 
