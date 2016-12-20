@@ -71,13 +71,14 @@ public class KlantResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
+    @RolesAllowed("GUEST")
     public void create(Klant klant) {
         service.add(klant);
     }
 
     /**
-     * @param id 
-     * @param authenticator 
+     * @param id
+     * @param authenticator
      * @param klant
      */
     @PUT
@@ -86,8 +87,7 @@ public class KlantResource {
     @JsonView(View.Protected.class)
     @RolesAllowed("GUEST")
     public void update(@PathParam("id") int id, @Auth Beheerder authenticator, Klant klant) {
-
-        service.add(klant);
+        service.update(id,klant);
     }
 
     /**
@@ -103,11 +103,11 @@ public class KlantResource {
     /**
      * @param authenticator
      */
-    @DELETE
-    @Path("/me")
-    @RolesAllowed("ADMIN") // ???
-    public void authenticate(Klant authenticator) {
-        // TODO implement here
-    }
+//    @DELETE
+//    @Path("/me")
+//    @RolesAllowed("ADMIN") // ???
+//    public Klant authenticate(@Auth Klant authenticator) {
+//        return service.me(authenticator);
+//    }
 
 }

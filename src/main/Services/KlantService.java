@@ -62,12 +62,12 @@ public class KlantService {
     }
 
     /**
-     * @param authenticator
      * @param id
      * @param klant
      */
-    public void update(Beheerder authenticator, int id, Klant klant) {
+    public void update( int id, Klant klant) {
         dao.setKlant(klant);
+        klant.setId(id);
         dao.update(id);
     }
 
@@ -75,7 +75,16 @@ public class KlantService {
      * @param id
      */
     public void delete(int id) {
-        // TODO implement here
+       dao.delete(id);
     }
+
+//    public Klant me(Klant klant){
+//        dao.select();
+//        for(Klant k : dao.getKlantlist()){
+//            if(k.getEmail().equals(klant.getEmail()))
+//                return k;
+//        }
+//        return null;
+//    }
 
 }
