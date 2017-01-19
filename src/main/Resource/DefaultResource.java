@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package main.Resources;
+package main.Resource;
 
 import javax.inject.Singleton;
 import javax.ws.rs.GET;

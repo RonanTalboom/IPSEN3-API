@@ -1,4 +1,4 @@
-package main.Resources;
+package main.Resource;
 
 
 
