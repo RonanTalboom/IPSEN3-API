@@ -52,6 +52,10 @@ public class Notitie implements Principal{
     @JsonView(View.Public.class)
     private Bedrijf bedrijfNaam;
 
+    @JsonView(View.Public.class)
+    private Beheerder gebruikerNaam;
+
+
     /**
      * Methode die de id van de notitie returned
      * @return id
@@ -178,5 +182,13 @@ public class Notitie implements Principal{
     @Override
     public boolean implies(Subject subject) {
         return false;
+    }
+
+    public Beheerder getGebruikerNaam() {
+        return gebruikerNaam;
+    }
+
+    public void setGebruikerNaam(Beheerder gebruikerNaam) {
+        this.gebruikerNaam = gebruikerNaam;
     }
 }
