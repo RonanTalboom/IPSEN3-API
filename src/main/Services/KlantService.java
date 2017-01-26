@@ -61,6 +61,11 @@ public class KlantService {
         dao.insert();
     }
 
+    public Integer getklant(Klant klant){
+        dao.setKlant(klant);
+        return dao.getID();
+    }
+
     /**
      * @param id
      * @param klant
