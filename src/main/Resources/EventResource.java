@@ -73,6 +73,7 @@ public class EventResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
     public void create(Event event) {
+        System.out.println("kjndfkjgndkfgnd");
         service.add(event);
     }
 
@@ -88,7 +89,7 @@ public class EventResource {
     @RolesAllowed("GUEST")
     public void update(@PathParam("id") int id, @Auth Beheerder authenticator, Event event) {
 
-        service.add(event);
+        service.update(authenticator, id, event);
     }
 
     /**

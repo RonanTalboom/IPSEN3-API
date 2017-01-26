@@ -61,7 +61,7 @@ public class EventService {
     /**
      * @param authenticator
      * @param id
-     * @param Event
+     * @param event
      */
     public void update(Beheerder authenticator, int id, Event event) {
         dao.setEvent(event);
@@ -72,6 +72,6 @@ public class EventService {
      * @param id
      */
     public void delete(int id) {
-        // TODO implement here
+        dao.delete(id);
     }
 }

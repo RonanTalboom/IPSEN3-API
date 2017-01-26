@@ -19,6 +19,7 @@ public class Event implements Principal{
     @JsonView(View.Public.class)
     private int beheerderId;
     @JsonView(View.Public.class)
+
     private Date beginTijd;
     @JsonView(View.Public.class)
     private Date eindTijd;
