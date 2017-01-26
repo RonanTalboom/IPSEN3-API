@@ -4,7 +4,7 @@ assets:
   mappings:
     /assets: /
   overrides:
-    /: ../ipsen3/src/assets/view/
+    /: ../ipsen3/src/
 
 server:
   rootPath: /api/*

@@ -4,8 +4,8 @@ package main.Resource;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import main.Model.Tag;
-import main.Services.TagService;
+
+import main.Services.KlantTagService;
 import main.View;
 
 import javax.annotation.security.RolesAllowed;
@@ -13,26 +13,24 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Collection;
 
-
 /**
  *
  */
 @Singleton
-@Path("/tags")
+@Path("/klantTags")
 @Produces(MediaType.APPLICATION_JSON)
-public class TagResource {
+public class KlantTagsResource {
 
     /**
      *
      */
-    public TagService service;
-
+    public KlantTagService service;
 
     /**
      * @param service
      */
     @Inject
-    public TagResource(TagService service) {
+    public void KlantTagsResource(KlantTagService service) {
         this.service = service;
     }
 
@@ -40,45 +38,21 @@ public class TagResource {
      *
      */
     @GET
-    @JsonView(View.Public.class)
-    @RolesAllowed("GUEST")
-    public Collection<Tag> retrieveAll() {
-        return service.getAll();
-    }
-
-    /**
-     * @param id
-     */
-    @GET
     @Path("/{id}")
     @JsonView(View.Public.class)
     @RolesAllowed("GUEST")
-    public Tag retrieve(@PathParam("id") int id) {
+    public Collection<Integer> retrieveAll(@PathParam("id") int id) {
         return service.get(id);
     }
 
-    /**
-     * @param tag
-     */
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @JsonView(View.Public.class)
-    public void create(Tag tag ) {
-        service.add(tag);
-    }
 
-    /**
-     * @param id
-     * @param tag
-     */
-    @PUT
+    @POST
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @JsonView(View.Protected.class)
-    @RolesAllowed("GUEST")
-    public void update(@PathParam("id")int id, Tag tag) {
-        tag.setId(id);
-        service.update(id,tag);
+    @JsonView(View.Public.class)
+    public void create( Collection<Integer> tagIDs, @PathParam("id") int id) {
+        System.out.println("klantid: "+id);
+        service.add(tagIDs,id);
     }
 
     /**
@@ -90,5 +64,6 @@ public class TagResource {
     public void delete(@PathParam("id") int id) {
         service.delete(id);
     }
+
 
 }

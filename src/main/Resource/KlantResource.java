@@ -54,6 +54,19 @@ public class KlantResource {
         return service.getAll();
     }
 
+//    /**
+//     *
+//     */
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @JsonView(View.Protected.class)
+//    @RolesAllowed("GUEST")
+//    public Integer Klantid(Klant klant){
+//        service.getklant(klant);
+//        System.out.println(1);
+//        return 1;
+//    }
+
     /**
      * @param id
      */
@@ -72,8 +85,9 @@ public class KlantResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
     @RolesAllowed("GUEST")
-    public void create(Klant klant) {
+    public Integer create(Klant klant) {
         service.add(klant);
+        return service.getklant(klant);
     }
 
     /**

@@ -106,7 +106,7 @@ public class BeheerderDAO extends ConnectDAO {
     public void delete(int id) {
         connectToDB();
         try {
-            preparedStatement = connection.prepareStatement("UPDATE gebruiker set isActief = TRUE WHERE ID = '"+id+"'");
+            preparedStatement = connection.prepareStatement("UPDATE gebruiker set isActief = FALSE WHERE ID = '"+id+"'");
             rows = preparedStatement.executeUpdate();
         } catch (SQLException e) {
                 e.printStackTrace();

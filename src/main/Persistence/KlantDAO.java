@@ -149,8 +149,8 @@ public class KlantDAO extends ConnectDAO {
      * Deze methode haalt een specifieke klant uit de database
      */
     public int getID() {
-        String query = "SELECT id FROM klant WHERE voornaam ='" + klant.getVoornaam() + "'AND achternaam ='" + klant.getAchternaam() +
-                "'AND geboortedatum='" + klant.getGeboorteDatum() + "'";
+        String query = "SELECT id FROM klant WHERE voornaam ='" + klant.getVoornaam() + "' AND achternaam = '" + klant.getAchternaam() +
+                "' AND geboortedatum = '" + klant.getGeboorteDatum() + "' AND email = '"+klant.getEmail()+"'";
         return runIDstatement(query);
     }
 

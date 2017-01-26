@@ -90,7 +90,7 @@ public class BeheerderResource {
      */
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("BEHEERDER")
+    @RolesAllowed("ADMIN")
     public void delete(@PathParam("id") int id) {
         service.delete(id);
     }

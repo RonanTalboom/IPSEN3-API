@@ -1,7 +1,7 @@
 package main.Persistence;
 
-
-import main.Model.Klant;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
 
@@ -14,20 +14,16 @@ import java.sql.SQLException;
 public class KlantTagDAO extends ConnectDAO{
 
     /**
-     * Hier wordt wordt een object van klant opgeslagen.
-     * Deze bevat de klantgegevens die wordt gebruikt in de statements
-     */
-    private Klant klant;
-
-    /**
      * Hier wordt het klantId opgeslagen voor het toevoegen van tags
      */
     private int klantID;
 
     /**
-     * Hier wordt opgeslagen welke tag wordt toegevoegd
+     * Hier wordt het tagId opgeslagen voor het toevoegen van tags
      */
     private int tagID;
+
+    private ObservableList<Integer> tagIDs = FXCollections.observableArrayList();
 
     /**
      * Deze methode wordt niet gebruikt.
@@ -74,14 +70,14 @@ public class KlantTagDAO extends ConnectDAO{
      */
     @Override
     public void select() {
-        klant.getArrTags().clear();
+        tagIDs.clear();
         try {
             connectToDB();
             preparedStatement = connection.prepareStatement("SELECT tag_id FROM klant_has_tag Where klant_id = ?");
-            preparedStatement.setInt(1,klant.getId());
+            preparedStatement.setInt(1,klantID);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-                klant.setArrTags(resultSet.getInt("tag_id"));
+                tagIDs.add(resultSet.getInt("tag_id"));
             }
             resultSet.close();
             closeConnection();
@@ -99,19 +95,12 @@ public class KlantTagDAO extends ConnectDAO{
 
     }
 
-    /**
-     * Zodra deze methode wordt aangeroepen wordt de tagID geset.
-     * @param tagID
-     */
     public void setTagID(int tagID) {
         this.tagID = tagID;
     }
 
-    /**
-     * Zodra deze methode wordt aangeroepen wordt de klant geset.
-     * @param klant
-     */
-    public void setKlant(Klant klant) {
-        this.klant = klant;
+    public ObservableList<Integer> getTagIDs() {
+        return tagIDs;
     }
+
 }
