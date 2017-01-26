@@ -3,6 +3,7 @@ package main.Persistence;
 
 import main.ErrorHandling.ExceptionDAO;
 import main.Model.Bedrijf;
+import main.Model.Beheerder;
 import main.Model.Klant;
 import main.Model.Notitie;
 
@@ -38,6 +39,8 @@ public class NotitieDAO extends ConnectDAO{
      * Deze bevat de klantgegevens die wordt gebruikt in de statements
      */
     private Klant klant =  new Klant();
+
+    private Beheerder gebruiker = new Beheerder();
 
     private Collection<Notitie>  notities = new ArrayList<Notitie>();
 
@@ -151,7 +154,7 @@ public class NotitieDAO extends ConnectDAO{
                     "on notitie.bedrijf_id = bedrijf.id WHERE klant_id = ?");
             preparedStatement.setInt(1,klant.getId());
             resultSet = preparedStatement.executeQuery();
-            vulObserversNotities(resultSet);
+//            vulObserversNotities(resultSet);
             connection.close();
         } catch (SQLException e) {
             throw new ExceptionDAO(e.getLocalizedMessage());
@@ -170,7 +173,7 @@ public class NotitieDAO extends ConnectDAO{
                     "on notitie.bedrijf_id = bedrijf.id WHERE bedrijf_id = ?");
             preparedStatement.setInt(1,klant.getId());
             resultSet = preparedStatement.executeQuery();
-            vulObserversNotities(resultSet);
+//            vulObserversNotities(resultSet);
             connection.close();
         } catch (SQLException e) {
             throw new ExceptionDAO(e.getLocalizedMessage());
@@ -182,44 +185,62 @@ public class NotitieDAO extends ConnectDAO{
     @Override
     public void select() {
 
-        try {
-            connectToDB();
-            preparedStatement = connection.prepareStatement("SELECT notitie.* FROM notitie ");
-            resultSet = preparedStatement.executeQuery();
-            vulObserversNotities(resultSet);
-            connection.close();
-        } catch (SQLException e) {
-            throw new ExceptionDAO(e.getLocalizedMessage());
-        }
+//        try {
+//            connectToDB();
+            String query ="SELECT notitie.*, klant.achternaam AS \"klantAchternaam\", klant.voornaam AS \"klantVoornaam\"," +
+                    "bedrijf.bedrijfsnaam," +
+                    " gebruiker.voornaam as \"gebruikerVoornaam\", gebruiker.achternaam AS \"gebruikerAchternaam\" " +
+                    "FROM notitie " +
+                    "LEFT JOIN klant ON notitie.klant_id = klant.id " +
+                    "LEFT JOIN bedrijf ON notitie.bedrijf_id = bedrijf.id " +
+                    "LEFT JOIN gebruiker ON notitie.gebruiker_id = gebruiker.id ";
+
+//            preparedStatement = connection.prepareStatement("SELECT * FROM notitie");
+
+//            resultSet = preparedStatement.executeQuery();
+            vulObserversNotities(query);
+//            connection.close();
+//        } catch (SQLException e) {
+//            throw new ExceptionDAO(e.getLocalizedMessage());
+//        }
 
     }
 
     /**
      * Deze methode is verantwoordelijk voor het maken van de notities models gebaseerd op de resultset.
      * de models worden opgeslagen in de observable list.
-     * @param resultSet
+//     * @param resultSet
      * @throws SQLException
      */
-    public void vulObserversNotities(ResultSet resultSet) throws SQLException {
+    public void vulObserversNotities(String query)  {
         notities.clear();
-        while(resultSet.next()) {
-            klant = new Klant();
-            bedrijf = new Bedrijf();
-            notitie = new Notitie();
-            notitie.setId(resultSet.getInt("id"));
-            notitie.setTitel(resultSet.getString("titel"));
-            notitie.setBeschrijving(resultSet.getString("beschrijving"));
-            notitie.setDatum(resultSet.getDate("datum"));
-            notitie.setBedrijfID(resultSet.getInt("bedrijf_id"));
-            notitie.setKlantID(resultSet.getInt("klant_id"));
-            notitie.setGebruikerID(resultSet.getInt("gebruiker_id"));
-//            klant.setVoornaam(resultSet.getString("voornaam"));
-//            klant.setAchternaam(resultSet.getString("achternaam"));
-//            bedrijf.setBedrijfsnaam(resultSet.getString("bedrijfsnaam"));
-//            bedrijf.setAdres(resultSet.getString("woonplaats"));
-            notitie.setKlantNaam(klant);
-            notitie.setBedrijfNaam(bedrijf);
-            notities.add(notitie);
+        connectToDB();
+        try {
+            resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                klant = new Klant();
+                bedrijf = new Bedrijf();
+                gebruiker = new Beheerder();
+                notitie = new Notitie();
+                notitie.setId(resultSet.getInt("id"));
+                notitie.setTitel(resultSet.getString("titel"));
+                notitie.setBeschrijving(resultSet.getString("beschrijving"));
+                notitie.setDatum(resultSet.getDate("datum"));
+                notitie.setBedrijfID(resultSet.getInt("bedrijf_id"));
+                notitie.setKlantID(resultSet.getInt("klant_id"));
+                notitie.setGebruikerID(resultSet.getInt("gebruiker_id"));
+                klant.setVoornaam(resultSet.getString("klantVoornaam"));
+                klant.setAchternaam(resultSet.getString("klantAchternaam"));
+                bedrijf.setBedrijfsnaam(resultSet.getString("bedrijfsnaam"));
+                gebruiker.setVoornaam(resultSet.getString("gebruikerVoornaam"));
+                gebruiker.setAchternaam(resultSet.getString("gebruikerAchternaam"));
+                notitie.setKlantNaam(klant);
+                notitie.setBedrijfNaam(bedrijf);
+                notitie.setGebruikerNaam(gebruiker);
+                notities.add(notitie);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
         }
     }
     /**
