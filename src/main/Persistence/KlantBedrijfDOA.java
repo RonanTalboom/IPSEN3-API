@@ -191,10 +191,10 @@ public class KlantBedrijfDOA extends ConnectDAO{
             klant.setWoonplaats(resultSet.getString("Woonplaats"));
             klant.setAdres(resultSet.getString("Adres"));
             klant.setPostcode(resultSet.getString("Postcode"));
-            klant.setGeboorteDatum(resultSet.getDate("Geboortedatum"));
+            klant.setGeboortedatum(resultSet.getDate("Geboortedatum"));
             klant.setTelefoon(resultSet.getString("Telefoon"));
             klant.setEmail(resultSet.getString("email"));
-            klant.setLinkedIn(resultSet.getString("LinkedIn"));
+            klant.setLinkedin(resultSet.getString("LinkedIn"));
             list.add(klant);
         }
     }
