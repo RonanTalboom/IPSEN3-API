@@ -4,6 +4,7 @@ import com.google.inject.Singleton;
 import main.Model.Klant;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 
@@ -117,6 +118,7 @@ public class KlantDAO extends ConnectDAO {
     private void getKlantGegevens(String query) {
         connectToDB();
         try {
+            klantlist = new ArrayList<>();
             /*connectToDB doet alleen van statement.conn */
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
@@ -145,8 +147,8 @@ public class KlantDAO extends ConnectDAO {
      * Deze methode haalt een specifieke klant uit de database
      */
     public int getID() {
-        String query = "SELECT id FROM klant WHERE voornaam ='" + klant.getVoornaam() + "'AND achternaam ='" + klant.getAchternaam() +
-                "'AND geboortedatum='" + klant.getGeboortedatum() + "'";
+        String query = "SELECT id FROM klant WHERE voornaam ='" + klant.getVoornaam() + "' AND achternaam = '" + klant.getAchternaam() +
+                "' AND geboortedatum = '" + klant.getGeboortedatum() + "' AND email = '"+klant.getEmail()+"'";
         return runIDstatement(query);
     }
 

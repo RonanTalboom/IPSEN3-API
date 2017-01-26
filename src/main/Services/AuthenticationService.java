@@ -5,15 +5,12 @@
  */
 package main.Services;
 
-import main.Model.Beheerder;
-import main.Model.Klant;
-import main.Persistence.BeheerderDAO;
-import main.Persistence.KlantDAO;
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import io.dropwizard.auth.Authorizer;
 import io.dropwizard.auth.basic.BasicCredentials;
-
+import main.Model.Beheerder;
+import main.Persistence.BeheerderDAO;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -54,10 +51,38 @@ public class AuthenticationService implements Authenticator<BasicCredentials, Be
         return Optional.empty();
     }
 
+
+    //change me...
     @Override
     public boolean authorize(Beheerder user, String roleName)
     {
 
-        return true;
+        //check rechten van gebruiker
+        String[] roles;
+        if(user.getRechten_id() == 2){
+            //is een beheerder
+            roles = new String[] { "BEHEERDER", "GUEST" };
+
+        }else if(user.getRechten_id() == 1){
+            //is een admin
+            roles = new String[] { "BEHEERDER", "ADMIN","GUEST" };
+
+        }else{
+            //niks
+            roles = new String[] { "GUEST"};
+        }
+        //controleren of de gebruiker de correcte role heeft
+        if (roles != null)
+        {
+            for(String role : roles)
+            {
+                if(roleName.equals(role))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
