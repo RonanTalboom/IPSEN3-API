@@ -10,12 +10,12 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 /**
- * De KlantFileDao is de DAO voor het opslaan en ophalen van bestanden uit database.
+ * De KlantFileDAO is de DAO voor het opslaan en ophalen van bestanden uit database.
  * Created by drynl on 3-11-2016.
  * @author drynl, Mohammed El Baze
  * @version 0.1
  */
-class KlantFileDao extends ConnectDAO {
+class KlantFileDAO extends ConnectDAO {
     /**
      * Hier wordt de klant  opgeslagen
      */

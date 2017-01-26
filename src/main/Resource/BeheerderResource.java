@@ -1,4 +1,4 @@
-package main.Resources;
+package main.Resource;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.inject.Inject;
@@ -31,7 +31,7 @@ public class BeheerderResource {
      * @param service
      */
     @Inject
-    public void BeheerderResource(BeheerderService service) {
+    public BeheerderResource(BeheerderService service) {
         this.service = service;
     }
 
@@ -41,7 +41,7 @@ public class BeheerderResource {
 
     @GET
     @JsonView(View.Public.class)
-    @RolesAllowed("GUEST")
+    @RolesAllowed("BEHEERDER")
     public Collection<Beheerder> retrieveAll() {
         return service.getAll();
 
@@ -53,7 +53,7 @@ public class BeheerderResource {
     @GET
     @Path("/{id}")
     @JsonView(View.Public.class)
-    @RolesAllowed("GUEST")
+    @RolesAllowed("BEHEERDER")
     public Beheerder retrieve(@PathParam("id") int id) {
         return service.get(id);
     }
@@ -64,6 +64,7 @@ public class BeheerderResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Public.class)
+    @RolesAllowed("BEHEERDER")
     public void create(Beheerder beheerder) {
         service.add(beheerder);
     }
@@ -77,7 +78,7 @@ public class BeheerderResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
-    @RolesAllowed("GUEST")
+    @RolesAllowed("BEHEERDER")
     public void update(@PathParam("id") int id, @Auth Beheerder authenticator, Beheerder beheerder) {
 
         beheerder.setId(id);
@@ -89,7 +90,7 @@ public class BeheerderResource {
      */
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("GUEST")
+    @RolesAllowed("ADMIN")
     public void delete(@PathParam("id") int id) {
         service.delete(id);
     }
@@ -99,7 +100,7 @@ public class BeheerderResource {
      */
     @GET
     @Path("/me")
-    @RolesAllowed("GUEST")
+    @RolesAllowed("BEHEERDER")
     public Beheerder authenticate(@Auth Beheerder authenticator) {
         return service.me(authenticator);
     }
