@@ -2,7 +2,6 @@ package main.Persistence;
 
 import com.google.inject.Singleton;
 import main.Model.Klant;
-import main.Persistence.ConnectDAO;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -96,9 +95,9 @@ public class KlantDAO extends ConnectDAO {
             preparedStatement.setString(3, klant.getAdres());
             preparedStatement.setString(4, klant.getPostcode());
             preparedStatement.setString(5, klant.getWoonplaats());
-            preparedStatement.setDate(6, klant.getGeboorteDatum());
+            preparedStatement.setDate(6, klant.getGeboortedatum());
             preparedStatement.setString(7, klant.getTelefoon());
-            preparedStatement.setString(8, klant.getLinkedIn());
+            preparedStatement.setString(8, klant.getLinkedin());
             preparedStatement.setString(9, klant.getEmail());
             rows = preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -129,9 +128,9 @@ public class KlantDAO extends ConnectDAO {
                 klant.setWoonplaats(resultSet.getString("woonplaats"));
                 klant.setAdres(resultSet.getString("adres"));
                 klant.setPostcode(resultSet.getString("postcode"));
-                klant.setGeboorteDatum(resultSet.getDate("geboortedatum"));
+                klant.setGeboortedatum(resultSet.getDate("geboortedatum"));
                 klant.setTelefoon(resultSet.getString("telefoon"));
-                klant.setLinkedIn(resultSet.getString("linkedIn"));
+                klant.setLinkedin(resultSet.getString("linkedIn"));
                 klant.setEmail(resultSet.getString("email"));
                 klantlist.add(klant);
             }
@@ -147,7 +146,7 @@ public class KlantDAO extends ConnectDAO {
      */
     public int getID() {
         String query = "SELECT id FROM klant WHERE voornaam ='" + klant.getVoornaam() + "'AND achternaam ='" + klant.getAchternaam() +
-                "'AND geboortedatum='" + klant.getGeboorteDatum() + "'";
+                "'AND geboortedatum='" + klant.getGeboortedatum() + "'";
         return runIDstatement(query);
     }
 

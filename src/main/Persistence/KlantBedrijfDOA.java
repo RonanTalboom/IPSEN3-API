@@ -11,7 +11,7 @@ import java.sql.SQLException;
 /**
  * De KlantBedrijfDOA is de DOA die wordt gebruikt voor het communiceren met de Klant_has_bedrijf Tabel.
  *
- * @author Shaban Jama
+ * @author Mohammed El Baze
  * @version 1.0, November 2016
  */
 public class KlantBedrijfDOA extends ConnectDAO{
@@ -191,10 +191,10 @@ public class KlantBedrijfDOA extends ConnectDAO{
             klant.setWoonplaats(resultSet.getString("Woonplaats"));
             klant.setAdres(resultSet.getString("Adres"));
             klant.setPostcode(resultSet.getString("Postcode"));
-            klant.setGeboorteDatum(resultSet.getDate("Geboortedatum"));
+            klant.setGeboortedatum(resultSet.getDate("Geboortedatum"));
             klant.setTelefoon(resultSet.getString("Telefoon"));
             klant.setEmail(resultSet.getString("email"));
-            klant.setLinkedIn(resultSet.getString("LinkedIn"));
+            klant.setLinkedin(resultSet.getString("LinkedIn"));
             list.add(klant);
         }
     }

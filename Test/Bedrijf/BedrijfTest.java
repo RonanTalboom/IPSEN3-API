@@ -21,7 +21,7 @@ public class BedrijfTest {
                     .header("authorization", "Basic bW86bW8=")
                     .header("cache-control", "no-cache")
                     .header("postman-token", "91227bbb-ddde-bd2b-c052-d2888d77a2e5")
-                    .body("{\n \"bedrijfsnaam\": \"asd\",\n \"adres\": \"asad\",\n \"postcode\": \"asd\",\n \"website\": \"asd\",\n \"plaats\": \"asd\",\n \"contactpersoon\": \"asd\",\n \"telefoon\": \"ads\",\n \"email\": \"adsad\"\n}")
+                    .body("{\n \"bedrijfsnaam\": \"77777\",\n \"adres\": \"asad\",\n \"postcode\": \"asd\",\n \"website\": \"asd\",\n \"plaats\": \"asd\",\n \"contactpersoon\": \"asd\",\n \"telefoon\": \"ads\",\n \"email\": \"adsa4444d\"\n}")
                     .asString();
         } catch (UnirestException e) {
             e.printStackTrace();
