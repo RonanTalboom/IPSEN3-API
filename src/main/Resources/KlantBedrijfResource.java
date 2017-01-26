@@ -8,9 +8,7 @@ import main.View;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Collection;
 
@@ -41,10 +39,11 @@ public class KlantBedrijfResource {
      *
      */
     @GET
+    @Path("/{id}")
     @JsonView(View.Public.class)
     @RolesAllowed("GUEST")
-    public Collection<Klant> retrieveAll() {
-        return service.getAll();
+    public Collection<Klant> retrieveAll(@PathParam("id") int id) {
+        return service.getAll(id);
     }
 
 //    /**
@@ -85,11 +84,12 @@ public class KlantBedrijfResource {
 //    /**
 //     * @param id
 //     */
-//    @DELETE
-//    @Path("/{id}")
-//    @RolesAllowed("ADMIN")
-//    public void delete(@PathParam("id") int id) {
-//        service.delete(id);
-//    }
+    @DELETE
+    @Path("/{bedrijfid}/{klantid}")
+    @RolesAllowed("ADMIN")
+    public void delete(@PathParam("bedrijfid") int bedrijfid,@PathParam("klantid") int klantid) {
+
+        service.delete(bedrijfid);
+    }
 
 }

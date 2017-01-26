@@ -47,13 +47,10 @@ public class KlantBedrijfService {
     /**
      *
      */
-    public Collection<Klant> getAll() {
+    public Collection<Klant> getAll(int id) {
         Bedrijf bedrijf =  new Bedrijf();
-        bedrijf.setId(91);
-        Klant klant = new Klant();
-        klant.setId(1);
+        bedrijf.setId(id);
         dao.setBedrijf(bedrijf);
-        dao.setKlant(klant);
         dao.selectWerkzameKlanten();
         return dao.getWerkzameKlanten();
     }
@@ -89,11 +86,11 @@ public class KlantBedrijfService {
 //        dao.update(id);
 //    }
 //
-//    /**
-//     * @param id
-//     */
-//    public void delete(int id) {
-//        dao.delete(id);
-//    }
+    /**
+     * @param id
+     */
+    public void delete(int id) {
+        dao.delete(id);
+    }
 
 }
