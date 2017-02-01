@@ -1,4 +1,4 @@
-package main.Resources;
+package main.Resource;
 
 /**
  * Created by Ruben van Til on 17-1-2017.
