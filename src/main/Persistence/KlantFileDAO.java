@@ -2,12 +2,11 @@ package main.Persistence;
 
 import main.Model.Bestand;
 import main.Model.Klant;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.Collection;
 
 /**
  * De KlantFileDAO is de DAO voor het opslaan en ophalen van bestanden uit database.
@@ -15,7 +14,7 @@ import java.sql.Types;
  * @author drynl, Mohammed El Baze
  * @version 0.1
  */
-class KlantFileDAO extends ConnectDAO {
+public class KlantFileDAO extends ConnectDAO {
     /**
      * Hier wordt de klant  opgeslagen
      */
@@ -23,7 +22,7 @@ class KlantFileDAO extends ConnectDAO {
     /**
      * Hier worden de klanten in een ObserverableList opgeslagen.
      */
-    private ObservableList<Bestand> observersBestand = FXCollections.observableArrayList();
+    private Collection<Bestand> observersBestand ;
     /**
      * Hier wordt de file  opgeslagen
      */
@@ -165,9 +164,7 @@ class KlantFileDAO extends ConnectDAO {
      * Methode die de bestanden van de klant returned
      * @return bestand
      */
-    public ObservableList<Bestand> getObserversBestand() {
-        return observersBestand;
-    }
+
     /**
      * Zodra deze methode wordt aangeroepen wordt de klant geset.
      *
@@ -197,5 +194,13 @@ class KlantFileDAO extends ConnectDAO {
      */
     public File getTheFile() {
         return theFile;
+    }
+
+    public Collection<Bestand> getObserversBestand() {
+        return observersBestand;
+    }
+
+    public void setObserversBestand(Collection<Bestand> observersBestand) {
+        this.observersBestand = observersBestand;
     }
 }

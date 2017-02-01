@@ -10,7 +10,7 @@ public class Klant { //implements principal?? que pasa??
     /**
      * Dit zijn de standaard waardes van de klant
      * id, voornaam, achternaam, adres, postcode,
-     * woonplaats, geboorteDatum, telefoon, LinkedIn en
+     * woonplaats, geboortedatum, telefoon, LinkedIn en
      * email
      */
 //    @JsonView(View.Public.class)
@@ -21,9 +21,9 @@ public class Klant { //implements principal?? que pasa??
     private String adres;
     private String postcode;
     private String woonplaats;
-    private Date geboorteDatum;
+    private Date geboortedatum;
     private String telefoon;
-    private String linkedIn;
+    private String linkedin;
     private String email;
     private ArrayList<Integer> arrTags = new ArrayList<>();
     private ArrayList arrBedrijven = new ArrayList();
@@ -31,15 +31,15 @@ public class Klant { //implements principal?? que pasa??
     /**
      * Methode die de geboortedatum van de klant set
      */
-    public void setGeboorteDatum(Date geboorteDatum) {
-        this.geboorteDatum = geboorteDatum;
+    public void setGeboortedatum(Date geboortedatum) {
+        this.geboortedatum = geboortedatum;
     }
     /**
      * Methode die de geboortedatum van de klant returned
-     * @return geboorteDatum
+     * @return geboortedatum
      */
-    public Date getGeboorteDatum() {
-        return geboorteDatum;
+    public Date getGeboortedatum() {
+        return geboortedatum;
     }
     /**
      * Methode die de id van de klant returned
@@ -136,14 +136,14 @@ public class Klant { //implements principal?? que pasa??
      * Methode die de LinkedIn van de klant returned
      * @return LinkedIn
      */
-    public String getLinkedIn() {
-        return linkedIn;
+    public String getLinkedin() {
+        return linkedin;
     }
     /**
      * Methode die de linkedin van de klant set
      */
-    public void setLinkedIn(String linkedIn) {
-        this.linkedIn = linkedIn;
+    public void setLinkedin(String linkedin) {
+        this.linkedin = linkedin;
     }
     /**
      * Methode die de Tags van de klant returned
