@@ -91,8 +91,8 @@ public class BeheerderResource {
     @DELETE
     @Path("/{id}")
     @RolesAllowed("ADMIN")
-    public void delete(@PathParam("id") int id) {
-        service.delete(id);
+    public void delete(@PathParam("id") int id, boolean isactief) {
+        service.delete(id, isactief);
     }
 
     /**

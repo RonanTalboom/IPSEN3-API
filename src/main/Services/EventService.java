@@ -5,6 +5,7 @@ import main.Model.Beheerder;
 import main.Model.Event;
 import main.Persistence.EventDAO;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -30,9 +31,16 @@ public class EventService {
     /**
      *
      */
-    public Collection<Event> getAll() {
+    public Collection<Event> getAll(Beheerder beheerder) {
         dao.select();
-        return dao.getEvents();
+        ArrayList<Event> events = new ArrayList<>();
+        for(Event event: dao.getEvents()) {
+            if(event.getBeheerderId() == (beheerder.getId())){
+                events.add(event);
+            }
+
+        }
+        return events;
     }
 
     /**
