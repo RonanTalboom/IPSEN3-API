@@ -41,9 +41,5 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-
-##Other
+#stuff
 target/
-
-##Kinda user specific
-configuration.yml
