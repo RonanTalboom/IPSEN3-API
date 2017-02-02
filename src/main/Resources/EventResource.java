@@ -51,8 +51,8 @@ public class EventResource {
     @GET
     @JsonView(View.Public.class)
     @RolesAllowed("GUEST")
-    public Collection<Event> retrieveAll() {
-        return service.getAll();
+    public Collection<Event> retrieveAll( @Auth Beheerder authenticator) {
+        return service.getAll(authenticator);
     }
 
     /**

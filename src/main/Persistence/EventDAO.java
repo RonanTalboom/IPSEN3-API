@@ -102,7 +102,7 @@ public class EventDAO extends ConnectDAO{
         events.clear();
         try {
             connectToDB();
-            preparedStatement = connection.prepareStatement("SELECT * FROM event");
+            preparedStatement = connection.prepareStatement("SELECT * FROM event ORDER BY begin_tijd");
             resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
