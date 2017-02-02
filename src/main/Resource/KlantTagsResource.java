@@ -27,6 +27,7 @@ public class KlantTagsResource {
     public KlantTagService service;
 
     /**
+     * Default constructor
      * @param service
      */
     @Inject
@@ -45,7 +46,9 @@ public class KlantTagsResource {
         return service.get(id);
     }
 
-
+    /**
+     * @param id
+     */
     @POST
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
