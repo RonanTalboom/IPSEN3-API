@@ -55,6 +55,32 @@ public class KlantBedrijfService {
         return dao.getWerkzameKlanten();
     }
 
+
+    public Collection<Klant> getOverigeAll(int id) {
+        Bedrijf bedrijf =  new Bedrijf();
+        bedrijf.setId(id);
+        dao.setBedrijf(bedrijf);
+        dao.selectOverigeKlanten();
+        return dao.getOverigeKlanten();
+    }
+
+    public Collection<Bedrijf> getOverigeBedrijvenAll(int id) {
+        Klant klant = new Klant();
+        klant.setId(id);
+        dao.setKlant(klant);
+        dao.selectOverigebedrijven();
+        return dao.getOverigebedrijven();
+    }
+
+    public Collection<Bedrijf> getAllBedrijven(int id) {
+        Klant klant = new Klant();
+        klant.setId(id);
+        dao.setKlant(klant);
+        dao.select();
+        return dao.getWerkzameBedrijven();
+
+    }
+
 //        /**
 //         * @param id
 //         */
@@ -69,13 +95,18 @@ public class KlantBedrijfService {
 //    }
 //
 //
-//    /**
-//     * @param bedrijf
-//     */
-//    public void add(Bedrijf bedrijf) {
-//        dao.setBedrijf(bedrijf);
-//        dao.insert();
-//    }
+    /**
+     * @param
+     */
+    public void add(int bedrijfID,int klantID) {
+        Bedrijf bedrijf =  new Bedrijf();
+        bedrijf.setId(bedrijfID);
+        Klant klant = new Klant();
+        klant.setId(klantID);
+        dao.setBedrijf(bedrijf);
+        dao.setKlant(klant);
+        dao.insert();
+    }
 //
 //    /**
 //     * @param id
@@ -92,5 +123,4 @@ public class KlantBedrijfService {
     public void delete(int id) {
         dao.delete(id);
     }
-
 }
