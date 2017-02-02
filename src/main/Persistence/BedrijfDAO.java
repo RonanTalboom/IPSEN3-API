@@ -179,8 +179,7 @@ public class BedrijfDAO extends ConnectDAO {
      * @return
      */
     public int getID(){
-        String query = "SELECT id FROM bedrijf WHERE bedrijfsnaam ='"+ bedrijf.getBedrijfsnaam()+"'AND adres ='"+ bedrijf.getAdres()+
-                "'AND website='"+ bedrijf.getWebsite()+"'";
+        String query = "SELECT id FROM bedrijf WHERE email ='"+ bedrijf.getEmail()+"'";
         return runIDstatement(query);
     }
 

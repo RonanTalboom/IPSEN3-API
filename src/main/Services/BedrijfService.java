@@ -68,9 +68,11 @@ public class BedrijfService {
     /**
      * @param bedrijf
      */
-    public void add(Bedrijf bedrijf) {
+    public Integer add(Bedrijf bedrijf) {
         dao.setBedrijf(bedrijf);
         dao.insert();
+
+        return dao.getID();
     }
 
     /**
@@ -80,6 +82,7 @@ public class BedrijfService {
     public void update(int id, Bedrijf bedrijf) {
         dao.setBedrijf(bedrijf);
         dao.update(id);
+
     }
 
     /**

@@ -1,4 +1,4 @@
-package main.Resources;
+package main.Resource;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.inject.Singleton;
@@ -62,8 +62,9 @@ public class BedrijfResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
-    public void create(Bedrijf bedrijf) {
-        service.add(bedrijf);
+    public Integer create(Bedrijf bedrijf) {
+        return service.add(bedrijf);
+
     }
 
     /**

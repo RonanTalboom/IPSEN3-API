@@ -1,6 +1,8 @@
 package main.Persistence;
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import main.Model.Bedrijf;
 
 import java.sql.SQLException;
@@ -13,11 +15,6 @@ import java.sql.SQLException;
  */
 public class BedrijfTagDAO extends ConnectDAO {
 
-    /**
-     * Hier wordt wordt een object van klant opgeslagen.
-     * Deze bevat de klantgegevens die wordt gebruikt in de statements
-     */
-    private Bedrijf bedrijf;
 
     /**
      * Hier wordt het bedrijfID opgeslagen voor het toevoegen van tags
@@ -28,6 +25,9 @@ public class BedrijfTagDAO extends ConnectDAO {
      * Hier wordt opgeslagen welke tag wordt toegevoegd
      */
     private int tagID;
+
+
+    private ObservableList<Integer> tagIDs = FXCollections.observableArrayList();
 
     /**
      * Deze methode wordt niet gebruikt.
@@ -44,7 +44,7 @@ public class BedrijfTagDAO extends ConnectDAO {
         try {
             connectToDB();
             preparedStatement = connection.prepareStatement("DELETE FROM bedrijf_has_tag Where bedrijf_id = ?");
-            preparedStatement.setInt(1,bedrijfID);
+            preparedStatement.setInt(1,id);
             preparedStatement.executeUpdate();
             closeConnection();
         } catch (SQLException e) {
@@ -74,14 +74,14 @@ public class BedrijfTagDAO extends ConnectDAO {
      */
     @Override
     public void select() {
-        bedrijf.getArrTags().clear();
+        tagIDs.clear();
         try {
             connectToDB();
             preparedStatement = connection.prepareStatement("SELECT tag_id FROM bedrijf_has_tag Where bedrijf_id = ?");
-            preparedStatement.setInt(1,bedrijf.getId());
+            preparedStatement.setInt(1,bedrijfID);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-                bedrijf.setArrTags(resultSet.getInt("tag_id"));
+                tagIDs.add(resultSet.getInt("tag_id"));
             }
             resultSet.close();
             closeConnection();
@@ -106,12 +106,9 @@ public class BedrijfTagDAO extends ConnectDAO {
         this.tagID = tagID;
     }
 
-    /**
-     * Zodra deze methode wordt aangeroepen wordt de bedrijf geset.
-     * @param bedrijf
-     */
-    public void setBedrijf(Bedrijf bedrijf) {
-        this.bedrijf = bedrijf;
+
+    public ObservableList<Integer> getTagIDs() {
+        return tagIDs;
     }
 
 }
