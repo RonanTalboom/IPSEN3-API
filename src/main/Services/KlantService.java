@@ -83,6 +83,9 @@ public class KlantService {
        dao.delete(id);
     }
 
+    public void activeer(int id){
+        dao.activeer(id);
+    }
 //    public Klant me(Klant klant){
 //        dao.select();
 //        for(Klant k : dao.getKlantlist()){

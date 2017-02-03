@@ -55,7 +55,12 @@ public class KlantDAO extends ConnectDAO {
      */
     @Override
     public void delete(int id) {
-        query = "DELETE FROM Klant Where id =" + id;
+        query = "UPDATE klant set isactief = FALSE  Where id =" + id;
+        runPreparedStatemant(query);
+    }
+
+    public void activeer(int id){
+        query = "UPDATE klant set isactief = TRUE  Where id =" + id;
         runPreparedStatemant(query);
     }
 
@@ -134,6 +139,7 @@ public class KlantDAO extends ConnectDAO {
                 klant.setTelefoon(resultSet.getString("telefoon"));
                 klant.setLinkedin(resultSet.getString("linkedIn"));
                 klant.setEmail(resultSet.getString("email"));
+                klant.setIsactief(resultSet.getBoolean("isactief"));
                 klantlist.add(klant);
             }
             resultSet.close();

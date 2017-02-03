@@ -114,6 +114,13 @@ public class KlantResource {
         service.delete(id);
     }
 
+    @DELETE
+    @Path("/activeer/{id}")
+    @RolesAllowed("GUEST") // ???
+    public void activeer(@PathParam("id") int id) {
+        service.activeer(id);
+    }
+
     /**
      * @param authenticator
      */
