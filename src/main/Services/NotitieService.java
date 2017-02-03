@@ -33,24 +33,21 @@ public class NotitieService {
      *
      */
     public Collection<Notitie> getAll() {
-       dao.select();
-       return dao.getNotities();
+       return dao.select();
     }
 
     /**
      * @param notitieid
      */
     public Notitie get(int notitieid) {
-        dao.select();
-        return dao.getNotitie();
+        return dao.select(notitieid);
     }
 
     /**
      * @param notitie
      */
     public void add(Notitie notitie) {
-        dao.setNotitie(notitie);
-        dao.insert();
+        dao.insert(notitie);
     }
 
     /**
@@ -58,8 +55,7 @@ public class NotitieService {
      * @param notitie
      */
     public void update(int id, Notitie notitie) {
-        dao.setNotitie(notitie);
-        dao.update(id);
+        dao.update(notitie);
     }
 
     /**
@@ -71,19 +67,11 @@ public class NotitieService {
 
 
     public Collection<Notitie> getKlantNotitie(int id){
-        Klant klant = new Klant();
-        klant.setId(id);
-        dao.setKlant(klant);
-        dao.filterKlantNotitie();
-        return dao.getNotities();
+        return dao.selectbyKlant(id);
     }
 
     public Collection<Notitie> getBedrijfNotitie(int id){
-        Bedrijf bedrijf = new Bedrijf();
-        bedrijf.setId(id);
-        dao.setBedrijf(bedrijf);
-        dao.filterBedrijfNotitie();
-        return dao.getNotities();
+        return dao.selectbyBedrijf(id);
     }
 
 }
