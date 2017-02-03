@@ -2,8 +2,12 @@ package main.Persistence;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import main.Model.KlantTag;
 
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * De KlantTagDOA is de DOA die wordt gebruikt voor het communiceren met de Klant_has_tag Tabel.
@@ -11,96 +15,91 @@ import java.sql.SQLException;
  * @author Shaban Jama
  * @version 1.0, November 2016
  */
-public class KlantTagDAO extends ConnectDAO{
-
-    /**
-     * Hier wordt het klantId opgeslagen voor het toevoegen van tags
-     */
-    private int klantID;
-
-    /**
-     * Hier wordt het tagId opgeslagen voor het toevoegen van tags
-     */
-    private int tagID;
-
-    private ObservableList<Integer> tagIDs = FXCollections.observableArrayList();
+public class KlantTagDAO extends ConnectDAO<KlantTag>{
 
     /**
      * Deze methode wordt niet gebruikt.
      */
     @Override
-    public void update(int id) {
+    public void update(KlantTag klantTag) {
+
+    }
+
+    /**
+     * Deze methode wordt niet gebruikt.
+     */
+    @Override
+    public KlantTag select(int id) {
+        return null;
+    }
+
+    /**
+     * Deze methode wordt niet gebruikt.
+     */
+    @Override
+    public Collection<KlantTag> select() {
+        return null;
     }
 
     /**
      * Deze methode is verantwoordelijk voor het verwijderen van een klant en tags relatie in de tabel.
      */
     @Override
-    public void delete(int id) {
+    public void delete(int klantId) {
+        Connection connection = createConnection();
         try {
-            connectToDB();
-            preparedStatement = connection.prepareStatement("DELETE FROM klant_has_tag Where klant_id =?");
-            preparedStatement.setInt(1,klantID);
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM klant_has_tag Where klant_id =?");
+            preparedStatement.setInt(1,klantId);
             preparedStatement.executeUpdate();
-            closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        closeConnection(connection);
     }
 
     /**
      * Deze methode is verantwoordelijk voor het toevoegen van een klant tags relatie in de tabel
      */
     @Override
-    public void insert() {
+    public int insert(KlantTag klantTag) {
+        Connection connection = createConnection();
         try {
-            connectToDB();
-            preparedStatement = connection.prepareStatement("INSERT INTO klant_has_tag (tag_id,klant_id) VALUES (?,?)");
-            preparedStatement.setInt(1,tagID);
-            preparedStatement.setInt(2,klantID);
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO klant_has_tag (tag_id,klant_id) VALUES (?,?)");
+            preparedStatement.setInt(1, klantTag.getTagId());
+            preparedStatement.setInt(2,klantTag.getKlantId());
             preparedStatement.executeUpdate();
-            closeConnection();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        closeConnection(connection);
+        return 0;
     }
 
     /**
      * Deze methode is verantwoordelijk voor het op halen van alle tags waar een klant aan gekoppelt is.
      */
-    @Override
-    public void select() {
-        tagIDs.clear();
+    public List<KlantTag> selectByKlant(int klantID) {
+        Connection connection = createConnection();
+        ArrayList<KlantTag> klantTags = new ArrayList<>();
+
         try {
-            connectToDB();
-            preparedStatement = connection.prepareStatement("SELECT tag_id FROM klant_has_tag Where klant_id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT tag_id FROM klant_has_tag Where klant_id = ?");
             preparedStatement.setInt(1,klantID);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-                tagIDs.add(resultSet.getInt("tag_id"));
+                KlantTag klantTag = new KlantTag();
+                klantTag.setKlantId(klantID);
+                klantTag.setTagId(resultSet.getInt("tag_id"));
+
+                klantTags.add(klantTag);
             }
             resultSet.close();
-            closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Zodra deze methode wordt aangeroepen wordt de klantid geset.
-     * @param klantID
-     */
-    public void setKlantID(int klantID) {
-        this.klantID = klantID;
-
-    }
-
-    public void setTagID(int tagID) {
-        this.tagID = tagID;
-    }
-
-    public ObservableList<Integer> getTagIDs() {
-        return tagIDs;
+        closeConnection(connection);
+        return klantTags;
     }
 
 }
