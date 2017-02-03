@@ -38,11 +38,12 @@ public class KlantFileService {
     public  KlantFileService(KlantFileDAO dao) {
         this.dao = dao;
     }
-    public Collection<Bestand> getAll(Klant klant) {
-        dao.select();
-        dao.setKlant(klant);
-        return dao.getObserversBestand();
-    }
+
+
+//    public Collection<Bestand> getAll(Klant klant) {
+//        return dao.selectByKlant(klant.getId());
+//    }
+
 //    /**
 //     * @param id
 //     */
@@ -56,14 +57,8 @@ public class KlantFileService {
 //        return null;
 //    }
 
-    public ObservableList<Bestand> get(int klantid) {
-        Klant klant = new Klant();
-        klant.setId(klantid);
-        dao.setKlant(klant);
-        dao.select();
-
-        System.out.println("sangam"+ dao.getObserversBestand());
-        return dao.getObserversBestand();
+    public Collection<Bestand> get(int klantid) {
+        return dao.selectByKlant(klantid);
 
     }
 
@@ -75,11 +70,7 @@ public class KlantFileService {
      * @param
      */
     public void add(Bestand bestand) {
-        Klant klant = new Klant();
-        klant.setId(bestand.getKlant_Id());
-        dao.setKlant(klant);
-        dao.setBestand(bestand);
-        dao.insert();
+        dao.insert(bestand);
     }
 
     /**
@@ -89,8 +80,8 @@ public class KlantFileService {
         dao.delete(id);
     }
 
-    public void downloadFile(int id){
-        dao.downloadFile(id);
-    }
+//    public void downloadFile(int id){
+//        dao.downloadFile(id);
+//    }
 
 }
