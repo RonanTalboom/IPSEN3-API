@@ -32,14 +32,10 @@ public class EventService {
      *
      */
     public Collection<Event> getAll(Beheerder beheerder) {
-        dao.select();
         ArrayList<Event> events = new ArrayList<>();
-        for(Event event: dao.getEvents()) {
-            if(event.getBeheerderId() == (beheerder.getId())){
+        for(Event event: dao.select())
+            if(event.getBeheerderId() == (beheerder.getId()))
                 events.add(event);
-            }
-
-        }
         return events;
     }
 
@@ -47,23 +43,14 @@ public class EventService {
      * @param id
      */
     public Event get(int id) {
-        dao.select();
-        for(Event event: dao.getEvents()) {
-            if(event.getId() == (id)){
-                return event;
-            }
-
-        }
-        return null;
-
+        return dao.select(id);
     }
 
     /**
      * @param event
      */
     public void add(Event event) {
-        dao.setEvent(event);
-        dao.insert();
+        dao.insert(event);
     }
 
     /**
@@ -72,8 +59,7 @@ public class EventService {
      * @param event
      */
     public void update(Beheerder authenticator, int id, Event event) {
-        dao.setEvent(event);
-        dao.update(id);
+        dao.update(event);
     }
 
     /**

@@ -2,43 +2,25 @@ package main.Persistence;
 
 import main.Model.Event;
 
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
+
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 /**
- *
+ * Deze class wordt gebruikt met de database te communiceren.
+ * Het is verantwoordelijk om query's uit te voeren.
+ * @author Ruben van Til
  */
-public class EventDAO extends ConnectDAO{
+public class EventDAO extends ConnectDAO<Event>{
 
-
-    private Collection<Event> events = new ArrayList<>();
-    private Event event;
-    private int rows;
-    private String errorBeschrijving;
-
-    public Collection<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(Collection<Event> events) {
-        this.events = events;
-    }
-
-    public Event getEvent() {
-        return event;
-    }
-
-    public void setEvent(Event event) {
-        this.event = event;
-    }
 
     @Override
-    public void update(int id) {
+    public void update(Event event) {
+        Connection connection = createConnection();
         try {
-            connectToDB();
-            preparedStatement = connection.prepareStatement("UPDATE event SET klant_id = ?, gebruiker_id = ?, begin_tijd =" +
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE event SET klant_id = ?, gebruiker_id = ?, begin_tijd =" +
                     " ?, eind_tijd = ?, onderwerp = ?, beschrijving = ?,locatie = ? WHERE id = ? ");
 
             preparedStatement.setInt(1, event.getKlantId());
@@ -49,34 +31,33 @@ public class EventDAO extends ConnectDAO{
             preparedStatement.setString(6, event.getBeschrijving());
             preparedStatement.setString(7, event.getLocatie());
             preparedStatement.setInt(8, event.getId());
-            rows = preparedStatement.executeUpdate();
-            closeConnection();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            errorBeschrijving = e.getLocalizedMessage();
-//            e.printStackTrace();
+            e.printStackTrace();
         }
+        closeConnection(connection);
     }
 
     @Override
     public void delete(int id) {
+        Connection connection = createConnection();
         try {
-            connectToDB();
-            preparedStatement = connection.prepareStatement("DELETE FROM event WHERE id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM event WHERE id = ?");
             preparedStatement.setInt(1,id);
-            rows = preparedStatement.executeUpdate();
-            closeConnection();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            errorBeschrijving = e.getLocalizedMessage();
+            e.printStackTrace();
         }
+        closeConnection(connection);
     }
 
     @Override
-    public void insert() {
+    public int insert(Event event) {
+        Connection connection = createConnection();
+        int id = -1;
         try {
-            System.out.println("Hallo");
-            connectToDB();
-            preparedStatement = connection.prepareStatement("INSERT INTO event (klant_id,gebruiker_id,begin_tijd,eind_tijd," +
-                    "onderwerp,beschrijving,locatie) VALUES (?,?,?,?,?,?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO event (klant_id,gebruiker_id,begin_tijd,eind_tijd," +
+                    "onderwerp,beschrijving,locatie) VALUES (?,?,?,?,?,?,?)", RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, event.getKlantId());
             preparedStatement.setInt(2, event.getBeheerderId());
             preparedStatement.setTimestamp(3, new Timestamp(event.getBeginTijd().getTime()));
@@ -84,26 +65,28 @@ public class EventDAO extends ConnectDAO{
             preparedStatement.setString(5, event.getOnderwerp());
             preparedStatement.setString(6, event.getBeschrijving());
             preparedStatement.setString(7, event.getLocatie());
-            rows = preparedStatement.executeUpdate();
-            System.out.println("something happened1");
-            closeConnection();
-            System.out.println("something happened2");
+            preparedStatement.executeUpdate();
+
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            rs.next();
+            id = rs.getInt(1);
+            rs.close();
 
         }
-        catch (Exception e){
-            errorBeschrijving = e.getLocalizedMessage();
-            System.out.println("something happened3 " + errorBeschrijving);
+        catch (SQLException e){
             e.printStackTrace();
         }
+        closeConnection(connection);
+        return id;
     }
 
     @Override
-    public void select() {
-        events.clear();
+    public List<Event> select() {
+        ArrayList<Event> events = new ArrayList<>();
+        Connection connection = createConnection();
         try {
-            connectToDB();
-            preparedStatement = connection.prepareStatement("SELECT * FROM event ORDER BY begin_tijd");
-            resultSet = preparedStatement.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM event ORDER BY begin_tijd");
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
                 Event e = new Event();
@@ -119,18 +102,36 @@ public class EventDAO extends ConnectDAO{
                 events.add(e);
             }
             resultSet.close();
-            closeConnection();
         } catch (SQLException e) {
-            errorBeschrijving = e.getLocalizedMessage();
-//            e.printStackTrace();
+            e.printStackTrace();
         }
+        closeConnection(connection);
+        return events;
     }
 
-    public String getErrorBeschrijving(){
-        return errorBeschrijving;
-    }
+    @Override
+    public Event select(int id){
+        Event event = new Event();
+        Connection connection = createConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM event ORDER BY begin_tijd");
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-    public int getRows(){
-        return rows;
+
+            event.setId(resultSet.getInt("id"));
+            event.setKlantId(resultSet.getInt("klant_id"));
+            event.setBeheerderId(resultSet.getInt("gebruiker_id"));
+            event.setBeginTijd(resultSet.getTimestamp("begin_tijd"));
+            event.setEindTijd(resultSet.getTimestamp("eind_tijd"));
+            event.setBeschrijving(resultSet.getString("beschrijving"));
+            event.setOnderwerp(resultSet.getString("onderwerp"));
+            event.setLocatie(resultSet.getString("locatie"));
+
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeConnection(connection);
+        return event;
     }
 }
