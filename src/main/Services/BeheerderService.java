@@ -3,7 +3,6 @@ package main.Services;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import main.Model.Beheerder;
-import main.Model.Klant;
 import main.Persistence.BeheerderDAO;
 
 import java.util.*;
@@ -33,8 +32,7 @@ public class BeheerderService {
      *
      */
     public Collection<Beheerder> getAll() {
-        dao.select();
-        return dao.getBeheerders();
+        return dao.select();
 
     }
 
@@ -42,23 +40,15 @@ public class BeheerderService {
      * @param id
      */
     public Beheerder get(int id) {
-        dao.select();
-        for(Beheerder beheerder: dao.getBeheerders()) {
-            if(beheerder.getId() == (id)){
-                return beheerder;
-            }
-
-        }
-        return null;
+        return dao.select(id);
 
     }
 
     /**
      * @param beheerder
      */
-    public void add(Beheerder beheerder) {
-        dao.setBeheerder(beheerder);
-        dao.insert();
+    public int add(Beheerder beheerder) {
+        return dao.insert(beheerder);
     }
 
     /**
@@ -66,8 +56,7 @@ public class BeheerderService {
      * @param beheerder
      */
     public void update(Beheerder authenticator, int id, Beheerder beheerder) {
-        dao.setBeheerder(beheerder);
-        dao.update(id);
+        dao.update(beheerder);
     }
 
     /**
@@ -80,8 +69,7 @@ public class BeheerderService {
 
     public Beheerder me(Beheerder beheerder){
 
-        dao.selectBeheerder();
-        for(Beheerder b : dao.getBeheerders()){
+        for(Beheerder b : dao.selectActive()){
 
             if(b.getEmail().equals(beheerder.getEmail()) && b.getWachtwoord().equals(beheerder.getWachtwoord())){
                 return b;

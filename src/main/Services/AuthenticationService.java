@@ -40,9 +40,7 @@ public class AuthenticationService implements Authenticator<BasicCredentials, Be
     @Override
     public Optional<Beheerder> authenticate(BasicCredentials credentials) throws AuthenticationException
     {
-
-        userDAO.selectBeheerder();
-        for(Beheerder b : userDAO.getBeheerders()){
+        for(Beheerder b : userDAO.selectActive() ){
 
             if(b.getEmail().equals(credentials.getUsername()) && b.getWachtwoord().equals(credentials.getPassword())){
                 return Optional.of(b);
