@@ -110,7 +110,7 @@ public class KlantBedrijfResource {
     @Path("/{bedrijfid}/{klantid}")
     public void delete(@PathParam("bedrijfid") int bedrijfid,@PathParam("klantid") int klantid) {
 
-        service.delete(bedrijfid);
+        service.delete( klantid, bedrijfid);
     }
 
 }
