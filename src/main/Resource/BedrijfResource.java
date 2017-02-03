@@ -91,4 +91,14 @@ public class BedrijfResource {
         service.delete(id);
     }
 
+    /**
+     * @param id
+     */
+    @DELETE
+    @Path("/activeer/{id}")
+    @RolesAllowed("ADMIN")
+    public void activeer(@PathParam("id") int id) {
+        service.activeer(id);
+    }
+
 }

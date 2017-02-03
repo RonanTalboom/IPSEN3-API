@@ -58,6 +58,8 @@ public class Bedrijf implements Principal {
     private String email;
     @JsonIgnore
     private ArrayList<Integer> arrTags = new ArrayList<>();
+    @JsonView(View.Public.class)
+    private boolean isactief = false;
     /**
      * Methode die de id van de bedrijf returned
      * @return id
@@ -217,5 +219,9 @@ public class Bedrijf implements Principal {
     @Override
     public boolean implies(Subject subject) {
         return false;
+    }
+
+    public void isIsactief(boolean isactief) {
+        this.isactief = isactief;
     }
 }

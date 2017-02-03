@@ -1,18 +1,15 @@
 package main.Resource;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.inject.Singleton;
-import main.Model.Bedrijf;
-import main.Model.Klant;
 import main.Model.Notitie;
 import main.Services.NotitieService;
 import main.View;
-import org.junit.runners.Parameterized;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.*;
+import java.util.Collection;
 
 /**
  *

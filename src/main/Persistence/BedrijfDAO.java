@@ -74,7 +74,20 @@ public class BedrijfDAO extends ConnectDAO {
     public void delete(int id) {
         try {
             connectToDB();
-            preparedStatement = connection.prepareStatement("DELETE FROM bedrijf WHERE id=?");
+            preparedStatement = connection.prepareStatement("UPDATE bedrijf  set isactief = FALSE  WHERE id =?");
+            preparedStatement.setInt(1,id);
+            rows = preparedStatement.executeUpdate();
+            connection.close();
+        } catch (SQLException e) {
+            errorBeschrijving = e.getLocalizedMessage();
+        }
+    }
+
+
+    public void activeer(int id) {
+        try {
+            connectToDB();
+            preparedStatement = connection.prepareStatement("UPDATE bedrijf  set isactief = TRUE  WHERE id =?");
             preparedStatement.setInt(1,id);
             rows = preparedStatement.executeUpdate();
             connection.close();
@@ -150,6 +163,7 @@ public class BedrijfDAO extends ConnectDAO {
                 bedrijf.setContactpersoon(resultSet.getString("contactpersoon"));
                 bedrijf.setTelefoon(resultSet.getString("telefoon"));
                 bedrijf.setEmail(resultSet.getString("email"));
+                bedrijf.isIsactief(resultSet.getBoolean("isactief"));
                 observersBedrijven.add(bedrijf);
                 connection.close();
             }
