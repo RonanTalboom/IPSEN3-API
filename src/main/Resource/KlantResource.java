@@ -86,8 +86,7 @@ public class KlantResource {
     @JsonView(View.Protected.class)
     @RolesAllowed("GUEST")
     public Integer create(Klant klant) {
-        service.add(klant);
-        return service.getklant(klant);
+        return service.add(klant);
     }
 
     /**

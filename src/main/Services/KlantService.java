@@ -34,36 +34,21 @@ public class KlantService {
      *
      */
     public Collection<Klant> getAll() {
-        dao.select();
-        return dao.getKlantlist();
+        return dao.select();
     }
 
     /**
      * @param id
      */
     public Klant get(int id) {
-        dao.select();
-        for(Klant klant: dao.getKlantlist()) {
-            if(klant.getId() == (id)){
-                return klant;
-            }
-
-        }
-        return null;
-
+        return dao.select(id);
     }
 
     /**
      * @param klant
      */
-    public void add(Klant klant) {
-        dao.setKlant(klant);
-        dao.insert();
-    }
-
-    public Integer getklant(Klant klant){
-        dao.setKlant(klant);
-        return dao.getID();
+    public Integer add(Klant klant) {
+        return dao.insert(klant);
     }
 
     /**
@@ -71,9 +56,7 @@ public class KlantService {
      * @param klant
      */
     public void update( int id, Klant klant) {
-        dao.setKlant(klant);
-        klant.setId(id);
-        dao.update(id);
+        dao.update(klant);
     }
 
     /**
@@ -83,13 +66,5 @@ public class KlantService {
        dao.delete(id);
     }
 
-//    public Klant me(Klant klant){
-//        dao.select();
-//        for(Klant k : dao.getKlantlist()){
-//            if(k.getEmail().equals(klant.getEmail()))
-//                return k;
-//        }
-//        return null;
-//    }
 
 }
