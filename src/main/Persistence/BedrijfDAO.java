@@ -73,7 +73,7 @@ public class BedrijfDAO extends ConnectDAO<Bedrijf> {
     public void activeer(int id) {
         Connection connection = createConnection();
         try {
-            preparedStatement = connection.prepareStatement("UPDATE bedrijf  set isactief = TRUE  WHERE id =?");
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE bedrijf  set isactief = TRUE  WHERE id =?");
             preparedStatement.setInt(1,id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
