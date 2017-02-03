@@ -4,16 +4,11 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import main.Model.Bestand;
-import main.Model.Klant;
-import main.Model.Tag;
 import main.Services.KlantFileService;
 import main.View;
-import org.glassfish.jersey.media.multipart.FormDataParam;
-
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.io.File;
 import java.util.*;
 
 
@@ -77,12 +72,6 @@ public class KlantFileResource {
         System.out.println("sangam"+bestand.getBase64());
       klantFileService.add(bestand);
     }
-//    @GET
-//    @Path("/{id}")
-//    @RolesAllowed("GUEST")
-//    public void downloadFile(@PathParam("id") int id){
-//        klantFileService.downloadFile(id);
-//        System.out.println("download");
-//    }
+
 
 }
