@@ -32,16 +32,17 @@ public class BedrijfDAO extends ConnectDAO<Bedrijf> {
         Connection connection = createConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE bedrijf SET bedrijfsnaam=? ,adres=?" +
-                    " ,postcode=? ,website=? ,plaats=? ,contactpersoon=? ,telefoon=? ,email=? WHERE id=?");
+                    " ,postcode=? ,website=? ,plaats=?,woonplaats=? ,contactpersoon=? ,telefoon=? ,email=? WHERE id=?");
             preparedStatement.setString(1, bedrijf.getBedrijfsnaam());
             preparedStatement.setString(2, bedrijf.getAdres());
             preparedStatement.setString(3, bedrijf.getPostcode());
             preparedStatement.setString(4, bedrijf.getWebsite());
             preparedStatement.setString(5, bedrijf.getPlaats());
-            preparedStatement.setString(6, bedrijf.getContactpersoon());
-            preparedStatement.setString(7, bedrijf.getTelefoon());
-            preparedStatement.setString(8, bedrijf.getEmail());
-            preparedStatement.setInt(9, bedrijf.getId());
+            preparedStatement.setString(6, bedrijf.getWebsite());
+            preparedStatement.setString(7, bedrijf.getContactpersoon());
+            preparedStatement.setString(8, bedrijf.getTelefoon());
+            preparedStatement.setString(9, bedrijf.getEmail());
+            preparedStatement.setInt(10, bedrijf.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,7 +61,19 @@ public class BedrijfDAO extends ConnectDAO<Bedrijf> {
     public void delete(int id) {
         Connection connection = createConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM bedrijf WHERE id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE bedrijf  set isactief = FALSE  WHERE id =?");
+            preparedStatement.setInt(1,id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeConnection( connection);
+    }
+
+    public void activeer(int id) {
+        Connection connection = createConnection();
+        try {
+            preparedStatement = connection.prepareStatement("UPDATE bedrijf  set isactief = TRUE  WHERE id =?");
             preparedStatement.setInt(1,id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -81,15 +94,16 @@ public class BedrijfDAO extends ConnectDAO<Bedrijf> {
         int id = -1;
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO bedrijf (bedrijfsnaam ,adres,postcode," +
-                        "website,plaats,contactpersoon,telefoon ,email) VALUES (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                        "website,plaats,woonplaats,contactpersoon,telefoon ,email) VALUES (?,?,?,?,?,?,?,?,?)");
                 preparedStatement.setString(1, bedrijf.getBedrijfsnaam());
                 preparedStatement.setString(2, bedrijf.getAdres());
                 preparedStatement.setString(3, bedrijf.getPostcode());
                 preparedStatement.setString(4, bedrijf.getWebsite());
                 preparedStatement.setString(5, bedrijf.getPlaats());
-                preparedStatement.setString(6, bedrijf.getContactpersoon());
-                preparedStatement.setString(7, bedrijf.getTelefoon());
-                preparedStatement.setString(8, bedrijf.getEmail());
+                preparedStatement.setString(6, bedrijf.getWebsite());
+                preparedStatement.setString(7, bedrijf.getContactpersoon());
+                preparedStatement.setString(8, bedrijf.getTelefoon());
+                preparedStatement.setString(9, bedrijf.getEmail());
                 preparedStatement.executeUpdate();
 
                 ResultSet rs = preparedStatement.getGeneratedKeys();
@@ -144,6 +158,7 @@ public class BedrijfDAO extends ConnectDAO<Bedrijf> {
             bedrijf.setContactpersoon(resultSet.getString("contactpersoon"));
             bedrijf.setTelefoon(resultSet.getString("telefoon"));
             bedrijf.setEmail(resultSet.getString("email"));
+            bedrijf.isIsactief(resultSet.getBoolean("isactief"));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -171,6 +186,7 @@ public class BedrijfDAO extends ConnectDAO<Bedrijf> {
             bedrijf.setContactpersoon(resultSet.getString("contactpersoon"));
             bedrijf.setTelefoon(resultSet.getString("telefoon"));
             bedrijf.setEmail(resultSet.getString("email"));
+            bedrijf.isIsactief(resultSet.getBoolean("isactief"));
             bedrijven.add(bedrijf);
         }
         return bedrijven;

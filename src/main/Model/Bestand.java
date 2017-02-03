@@ -1,36 +1,54 @@
 package main.Model;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
 /**
  * Created by drynl on 3-11-2016.
  */
 public class Bestand {
     /**
      * Dit zijn de standaard waardes van de bestand
-     * bestand_Id, Klant_Id, FileName
+     * bestand_Id, Klant_Id, fileName
      */
     private int bestand_Id;
-    private int Klant_Id;
-    private String FileName;
+    private int klant_Id;
+    private String fileName;
+    private String base64;
+
+
+    public String getBase64() {
+        return base64;
+    }
+
+    public void setBase64(String base64) {
+        this.base64 = base64;
+    }
 
     /**
      * Methode die de klant_id van de bestand set
      */
-    public void setKlant_Id(int klant_Id) {
-        Klant_Id = klant_Id;
+    public int getKlant_Id() {
+        return klant_Id;
     }
+
+    public void setKlant_Id(int klant_Id) {
+        this.klant_Id = klant_Id;
+    }
+
     /**
      * Methode die de fileName van de bestand returned
      * @return fileName
      */
     public String getFileName() {
-        return FileName;
+        return fileName;
     }
     /**
      * Methode die de fileName van de bestand set
      */
     public void setFileName(String fileName) {
-        FileName = fileName;
+        this.fileName = fileName;
     }
     /**
      * Methode die de bestand_id van de bestand returned

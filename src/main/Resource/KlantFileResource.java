@@ -1,19 +1,30 @@
 package main.Resource;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import main.Model.Bestand;
 import main.Services.KlantFileService;
-
-import java.io.File;
+import main.View;
+import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.util.*;
+
 
 /**
  *
  */
+@Singleton
+@Path("/klantBestand")
+@Produces(MediaType.APPLICATION_JSON)
 public class KlantFileResource {
 
     /**
      * Default constructor
      */
     public KlantFileResource() {
+
     }
 
     /**
@@ -24,31 +35,43 @@ public class KlantFileResource {
     /**
      * @param service
      */
+    @Inject
     public void KlantFileResource(KlantFileService service) {
-        // TODO implement here
+       this.klantFileService = service;
     }
 
     /**
-     * @param Klantid
+     * @param id
      */
-    public void retrieve(int Klantid) {
-        // TODO implement here
+
+    @GET
+    @Path("/{id}")
+    @JsonView(View.Public.class)
+    @RolesAllowed("GUEST")
+    public Collection<Bestand> retrieveAll(@PathParam("id") int id) {
+        return klantFileService.get(id);
     }
 
-    /**
-     * @param Klantid
-     * @param File
-     */
-    public void create(int Klantid , File File ) {
-        // TODO implement here
-    }
 
     /**
-     * @param Klantid
-     * @param Fileid
+     * @param id
      */
-    public void delete(int Klantid, int Fileid) {
-        // TODO implement here
+    @DELETE
+    @Path("/{id}")
+    @RolesAllowed("GUEST")
+    public void delete(@PathParam("id") int id) {
+        klantFileService.delete(id);
     }
+
+
+    @POST
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void create(@PathParam("id") int id, Bestand bestand)
+    {
+        System.out.println("sangam"+bestand.getBase64());
+      klantFileService.add(bestand);
+    }
+
 
 }

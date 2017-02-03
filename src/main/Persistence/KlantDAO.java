@@ -47,6 +47,7 @@ public class KlantDAO extends ConnectDAO<Klant> {
                 klant.setTelefoon(resultSet.getString("telefoon"));
                 klant.setLinkedin(resultSet.getString("linkedIn"));
                 klant.setEmail(resultSet.getString("email"));
+                klant.setIsactief(resultSet.getBoolean("isactief"));
                 klantlist.add(klant);
             }
         } catch (SQLException e) {
@@ -81,6 +82,7 @@ public class KlantDAO extends ConnectDAO<Klant> {
             klant.setTelefoon(resultSet.getString("telefoon"));
             klant.setLinkedin(resultSet.getString("linkedIn"));
             klant.setEmail(resultSet.getString("email"));
+            klant.setIsactief(resultSet.getBoolean("isactief"));
 
             resultSet.close();
         } catch (SQLException e) {
@@ -98,7 +100,19 @@ public class KlantDAO extends ConnectDAO<Klant> {
     public void delete(int id) {
         Connection connection = createConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM klant WHERE id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE klant SET isactief = FALSE  WHERE id = ?");
+            preparedStatement.setInt(1,id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeConnection(connection);
+    }
+
+    public void activeer(int id){
+        Connection connection = createConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE klant SET isactief = TRUE WHERE id = ?");
             preparedStatement.setInt(1,id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

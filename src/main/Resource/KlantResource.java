@@ -108,19 +108,21 @@ public class KlantResource {
      */
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("ADMIN") // ???
+    @RolesAllowed("GUEST") // ???
     public void delete(@PathParam("id") int id) {
         service.delete(id);
+    }
+
+    @DELETE
+    @Path("/activeer/{id}")
+    @RolesAllowed("GUEST") // ???
+    public void activeer(@PathParam("id") int id) {
+        service.activeer(id);
     }
 
     /**
      * @param authenticator
      */
-//    @DELETE
-//    @Path("/me")
-//    @RolesAllowed("ADMIN") // ???
-//    public Klant authenticate(@Auth Klant authenticator) {
-//        return service.me(authenticator);
-//    }
+
 
 }

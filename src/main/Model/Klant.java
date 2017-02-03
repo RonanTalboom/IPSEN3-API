@@ -27,6 +27,16 @@ public class Klant { //implements principal?? que pasa??
     private String email;
     private ArrayList<Integer> arrTags = new ArrayList<>();
     private ArrayList arrBedrijven = new ArrayList();
+    private boolean isactief= false;
+
+
+    public boolean isactief() {
+        return isactief;
+    }
+
+    public void setIsactief(boolean isactief) {
+        this.isactief = isactief;
+    }
 
     /**
      * Methode die de geboortedatum van de klant set

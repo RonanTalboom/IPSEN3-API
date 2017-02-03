@@ -64,4 +64,7 @@ public class BedrijfService {
         dao.delete(id);
     }
 
+    public void activeer(int id) {
+        dao.activeer(id);
+    }
 }

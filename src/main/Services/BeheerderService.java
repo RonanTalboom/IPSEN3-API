@@ -62,8 +62,8 @@ public class BeheerderService {
     /**
      * @param id
      */
-    public void delete(int id) {
-        dao.delete(id);
+    public void delete(int id, boolean isactief) {
+        dao.deleteUndo(id, isactief);
     }
 
 

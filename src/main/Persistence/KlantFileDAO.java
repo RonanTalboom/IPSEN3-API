@@ -1,12 +1,13 @@
 package main.Persistence;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import main.Model.Bestand;
 import main.Model.Klant;
 
 import java.io.*;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.Collection;
 
 /**
  * De KlantFileDAO is de DAO voor het opslaan en ophalen van bestanden uit database.
@@ -22,7 +23,7 @@ public class KlantFileDAO extends ConnectDAO {
     /**
      * Hier worden de klanten in een ObserverableList opgeslagen.
      */
-    private Collection<Bestand> observersBestand ;
+    private ObservableList<Bestand> observersBestand = FXCollections.observableArrayList();
     /**
      * Hier wordt de file  opgeslagen
      */
@@ -54,7 +55,7 @@ public class KlantFileDAO extends ConnectDAO {
      */
     @Override
     public void delete(int id) {
-        String query = "Delete FROM klant_has_file WHERE id = " + id;
+        String query = "Delete FROM klant_has_file WHERE id =" + id;
         runPreparedStatemant(query);
 
     }
@@ -66,54 +67,58 @@ public class KlantFileDAO extends ConnectDAO {
     @Override
     public void insert() {
         connectToDB();
+        byte[] bytes =bestand.getBase64().getBytes();
         String query = "INSERT INTO klant_has_file (klant_id,filename,file) VALUES (?,?,?)";
         try {
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, klant.getId());
-            preparedStatement.setString(2, file.getName());
-            uploadFile(3);
+            preparedStatement.setInt(1, bestand.getKlant_Id());
+            preparedStatement.setString(2, bestand.getFileName());
+            preparedStatement.setBytes(3, bytes);
             preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Deze methode zorgt ervoor dat de select wordt uitgevoerd om
-     * alle bestanden te selecteren.
-     */
-    @Override
-    public void select() {
-        String query = "SELECT * FROM klant_has_file WHERE klant_id =" + klant.getId();
-        connectToDB();
-        try {
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                bestand = new Bestand();
-                bestand.setBestand_Id(resultSet.getInt("id"));
-                bestand.setKlant_Id(resultSet.getInt("klant_id"));
-                bestand.setFileName(resultSet.getString("filename"));
-                observersBestand.add(bestand);
+        /**
+         * Deze methode zorgt ervoor dat de select wordt uitgevoerd om
+         * alle bestanden te selecteren.
+         */
+        @Override
+        public void select () {
+            observersBestand.clear();
+            String query = "SELECT * FROM klant_has_file WHERE klant_id =" + klant.getId();
+            connectToDB();
+            try {
+                preparedStatement = connection.prepareStatement(query);
+                resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    bestand = new Bestand();
+                    bestand.setBestand_Id(resultSet.getInt("id"));
+                    bestand.setKlant_Id(resultSet.getInt("klant_id"));
+                    bestand.setFileName(resultSet.getString("filename"));
+                    byte[] bytes = resultSet.getBytes("file");
+                    bestand.setBase64(new String(bytes));
+                    observersBestand.add(bestand);
+
+                }
+                preparedStatement.execute();
+                preparedStatement.close();
+                resultSet.close();
+                closeConnection();
+            } catch (SQLException e) {
+                e.printStackTrace();
+
             }
-            preparedStatement.execute();
-            preparedStatement.close();
-            resultSet.close();
-            closeConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-
         }
-    }
+
 
     /**
      * Zodra deze methode wordt aangeroepen wordt, wordt de geselecteerde bestand gedownload
      */
-    public void downloadFile() {
+    public void downloadFile(int id) {
         connectToDB();
-        String query = "SELECT * FROM klant_has_file Where id = " + bestand.getBestand_Id() + "";
+        String query = "SELECT * FROM klant_has_file Where klant_id ="+ id;
         try {
             resultSet = statement.executeQuery(query);
             if (file != null) {
@@ -137,6 +142,7 @@ public class KlantFileDAO extends ConnectDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println("downloaded lol");
     }
     /**
      * Zodra deze methode wordt aangeroepen wordt, verwacht de methode
@@ -196,11 +202,11 @@ public class KlantFileDAO extends ConnectDAO {
         return theFile;
     }
 
-    public Collection<Bestand> getObserversBestand() {
+    public ObservableList<Bestand> getObserversBestand() {
         return observersBestand;
     }
 
-    public void setObserversBestand(Collection<Bestand> observersBestand) {
+    public void setObserversBestand(ObservableList<Bestand> observersBestand) {
         this.observersBestand = observersBestand;
     }
 }
