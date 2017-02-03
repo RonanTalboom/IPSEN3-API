@@ -103,25 +103,25 @@ public class BedrijfDAO extends ConnectDAO {
      */
     @Override
     public void insert() {
-            try {
-                connectToDB();
+        try {
+            connectToDB();
 
-                preparedStatement = connection.prepareStatement("INSERT INTO bedrijf (bedrijfsnaam ,adres,postcode," +
-                        "website,plaats,woonplaats,contactpersoon,telefoon ,email) VALUES (?,?,?,?,?,?,?,?,?)");
-                preparedStatement.setString(1, bedrijf.getBedrijfsnaam());
-                preparedStatement.setString(2, bedrijf.getAdres());
-                preparedStatement.setString(3, bedrijf.getPostcode());
-                preparedStatement.setString(4, bedrijf.getWebsite());
-                preparedStatement.setString(5, bedrijf.getPlaats());
-                preparedStatement.setString(6, bedrijf.getWebsite());
-                preparedStatement.setString(7, bedrijf.getContactpersoon());
-                preparedStatement.setString(8, bedrijf.getTelefoon());
-                preparedStatement.setString(9, bedrijf.getEmail());
-                rows = preparedStatement.executeUpdate();
-                connection.close();
-            } catch (SQLException e) {
-                errorBeschrijving = e.getLocalizedMessage();
-            }
+            preparedStatement = connection.prepareStatement("INSERT INTO bedrijf (bedrijfsnaam ,adres,postcode," +
+                    "website,plaats,woonplaats,contactpersoon,telefoon ,email) VALUES (?,?,?,?,?,?,?,?,?)");
+            preparedStatement.setString(1, bedrijf.getBedrijfsnaam());
+            preparedStatement.setString(2, bedrijf.getAdres());
+            preparedStatement.setString(3, bedrijf.getPostcode());
+            preparedStatement.setString(4, bedrijf.getWebsite());
+            preparedStatement.setString(5, bedrijf.getPlaats());
+            preparedStatement.setString(6, bedrijf.getWebsite());
+            preparedStatement.setString(7, bedrijf.getContactpersoon());
+            preparedStatement.setString(8, bedrijf.getTelefoon());
+            preparedStatement.setString(9, bedrijf.getEmail());
+            rows = preparedStatement.executeUpdate();
+            connection.close();
+        } catch (SQLException e) {
+            errorBeschrijving = e.getLocalizedMessage();
+        }
 
     }
 
