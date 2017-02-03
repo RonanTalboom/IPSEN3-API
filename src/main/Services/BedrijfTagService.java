@@ -1,7 +1,9 @@
 package main.Services;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import javafx.collections.ObservableList;
+import main.Model.BedrijfTag;
 import main.Persistence.BedrijfTagDAO;
 
 import java.util.*;
@@ -9,6 +11,7 @@ import java.util.*;
 /**
  *
  */
+@Singleton
 public class BedrijfTagService {
 
     /**
@@ -25,25 +28,27 @@ public class BedrijfTagService {
     }
 
     /**
-     * @param bedrijfID
+     * @param bedrijfid
      */
-    public ObservableList<Integer> get(int bedrijfID) {
-        dao.setBedrijfID(bedrijfID);
-        dao.select();
-        return dao.getTagIDs();
-
+    public Collection<Integer> get(int bedrijfid) {
+        List<Integer> tagIDs = new ArrayList<>();
+        for(BedrijfTag kt : dao.selectByBedrijf(bedrijfid))
+            tagIDs.add(kt.getTagId());
+        return tagIDs;
     }
 
     /**
-     * @param bedrijfID
      * @param tagIDs
+     * @param bedrijfID
      */
     public void add(Collection<Integer> tagIDs, int bedrijfID) {
-        dao.setBedrijfID(bedrijfID);
         dao.delete(bedrijfID);
         for (Integer tagID: tagIDs) {
-            dao.setTagID(tagID);
-            dao.insert();
+            BedrijfTag kt = new BedrijfTag();
+            kt.setBedrijfId(bedrijfID);
+            kt.setTagId(tagID);
+
+            dao.insert(kt);
         }
     }
 
