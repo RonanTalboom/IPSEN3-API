@@ -52,7 +52,7 @@ public class BedrijfService {
      * @param id
      * @param bedrijf
      */
-    public void update(Bedrijf bedrijf) {
+    public void update(int id, Bedrijf bedrijf) {
         dao.update(bedrijf);
 
     }
