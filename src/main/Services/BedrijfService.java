@@ -29,39 +29,15 @@ public class BedrijfService {
     /**
      *
      */
-//    public BedrijfResource 1;
-
-    /**
-     *
-     */
-//    public BedrijfDAO 1;
-
-    /**
-     * @param dao
-     */
-//    public void BedrijfService(BedrijfDAO dao) {
-//        this.dao = dao;
-//    }
-
-    /**
-     *
-     */
     public Collection<Bedrijf> getAll() {
-        dao.select();
-        return dao.getObserversBedrijven();
+        return dao.select();
     }
 
         /**
          * @param id
          */
     public Bedrijf get(int id) {
-        dao.select();
-        for (Bedrijf bedrijf: dao.getObserversBedrijven()){
-            if (bedrijf.getId() == (id)) {
-                return bedrijf;
-            }
-        }
-        return null;
+        return dao.select(id);
     }
 
 
@@ -69,19 +45,15 @@ public class BedrijfService {
      * @param bedrijf
      */
     public Integer add(Bedrijf bedrijf) {
-        dao.setBedrijf(bedrijf);
-        dao.insert();
-
-        return dao.getID();
+        return dao.insert(bedrijf);
     }
 
     /**
      * @param id
      * @param bedrijf
      */
-    public void update(int id, Bedrijf bedrijf) {
-        dao.setBedrijf(bedrijf);
-        dao.update(id);
+    public void update(Bedrijf bedrijf) {
+        dao.update(bedrijf);
 
     }
 
