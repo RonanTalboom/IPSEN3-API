@@ -114,7 +114,8 @@ public class EventDAO extends ConnectDAO<Event>{
         Event event = new Event();
         Connection connection = createConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM event ORDER BY begin_tijd");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM event WHERE id = ?");
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
 

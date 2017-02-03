@@ -131,7 +131,7 @@ public class BedrijfDAO extends ConnectDAO<Bedrijf> {
         Connection connection = createConnection();
         Bedrijf bedrijf = new Bedrijf();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM bedrijf WHERE bedrijf.id = ?;");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM bedrijf WHERE id = ?;");
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -151,23 +151,6 @@ public class BedrijfDAO extends ConnectDAO<Bedrijf> {
         closeConnection(connection);
         return bedrijf;
     }
-
-
-//    public List<Bedrijf> filterTag(String filter){
-//        Connection connection = createConnection();
-//        ArrayList<Bedrijf> bedrijven = new ArrayList<>();
-//        try {
-//            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM bedrijf AS b JOIN bedrijf_has_tag ON b.id = bt.bedrijf_id " +
-//                    "JOIN tag AS t ON bt.tag_id = t.id WHERE naam = ? ");
-//              preparedStatement.setString(1, filter);
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            bedrijven = fillListFromResultSet(resultSet, bedrijven);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        closeConnection(connection);
-//        return bedrijven;
-//    }
 
     /**
      * Deze methode geeft een lijst met bedrijven uit de resultset van de database terug.
