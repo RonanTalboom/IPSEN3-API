@@ -30,29 +30,21 @@ public class TagService {
      *
      */
     public Collection<Tag> getAll() {
-        dao.select();
-        return dao.getObserversTags();
+        return dao.select();
     }
 
     /**
      * @param id
      */
     public Tag get(int id) {
-        dao.select();
-        for (Tag tag: dao.getObserversTags()){
-            if (tag.getId() == (id)) {
-                return tag;
-            }
-        }
-        return null;
+        return dao.select(id);
     }
 
     /**
      * @param tag
      */
     public void add(Tag tag) {
-        dao.setTag(tag);
-        dao.insert();
+        dao.insert(tag);
     }
 
     /**
@@ -60,8 +52,7 @@ public class TagService {
      * @param tag
      */
     public void update(int id, Tag tag) {
-        dao.setTag(tag);
-        dao.update(id);
+        dao.update(tag);
     }
 
     /**
