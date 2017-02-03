@@ -67,6 +67,19 @@ public class BeheerderDAO extends ConnectDAO<Beheerder> {
         closeConnection( connection);
     }
 
+    public void deleteUndo(int id, boolean bool) {
+        Connection connection = createConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE gebruiker set isActief = ? WHERE ID = ?");
+            preparedStatement.setBoolean(1,bool);
+            preparedStatement.setInt(2,id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeConnection( connection);
+    }
+
     /**
      * Deze methode zorgt ervoor dat de insert wordt uitgevoerd om
      * de nieuwe een nieuwe beheerder toe te voegen.
