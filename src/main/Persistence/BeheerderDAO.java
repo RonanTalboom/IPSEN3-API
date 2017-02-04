@@ -32,7 +32,7 @@ public class BeheerderDAO extends ConnectDAO<Beheerder> {
         Connection connection = createConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE gebruiker SET voornaam = ?, achternaam = ?, adres =" +
-                    " ?, postcode = ?, woonplaats = ?, telefoon = ?,email = ?, wachtwoord = ?, isactief = ? WHERE id = ?");
+                    " ?, postcode = ?, woonplaats = ?, telefoon = ?,email = ?, wachtwoord = ?,rechten_id =?  , isactief = ? WHERE id = ?");
             preparedStatement.setString(1,beheerder.getVoornaam());
             preparedStatement.setString(2,beheerder.getAchternaam());
             preparedStatement.setString(3,beheerder.getAdres());
@@ -41,8 +41,9 @@ public class BeheerderDAO extends ConnectDAO<Beheerder> {
             preparedStatement.setString(6,beheerder.getTelefoon());
             preparedStatement.setString(7,beheerder.getEmail());
             preparedStatement.setString(8,beheerder.getWachtwoord());
-            preparedStatement.setBoolean(9,beheerder.isActief());
-            preparedStatement.setInt(10, beheerder.getId());
+            preparedStatement.setInt(9, beheerder.getRechten_id());
+            preparedStatement.setBoolean(10,beheerder.isActief());
+            preparedStatement.setInt(11, beheerder.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,7 +91,7 @@ public class BeheerderDAO extends ConnectDAO<Beheerder> {
         int id = -1;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO gebruiker (voornaam,achternaam,adres,postcode," +
-                    "woonplaats,telefoon,email,wachtwoord,rechten_id) VALUES (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                    "woonplaats,telefoon,email,wachtwoord,rechten_id, isactief) VALUES (?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, beheerder.getVoornaam());
             preparedStatement.setString(2, beheerder.getAchternaam());
             preparedStatement.setString(3, beheerder.getAdres());
@@ -100,6 +101,7 @@ public class BeheerderDAO extends ConnectDAO<Beheerder> {
             preparedStatement.setString(7, beheerder.getEmail());
             preparedStatement.setString(8, beheerder.getWachtwoord());
             preparedStatement.setInt(9, beheerder.getRechten_id());
+            preparedStatement.setBoolean(10, true);
             preparedStatement.executeUpdate();
 
             ResultSet rs = preparedStatement.getGeneratedKeys();
