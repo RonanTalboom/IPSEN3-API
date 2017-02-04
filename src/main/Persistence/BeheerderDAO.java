@@ -157,10 +157,11 @@ public class BeheerderDAO extends ConnectDAO<Beheerder> {
         Connection connection = createConnection();
         Beheerder beheerder = new Beheerder();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM beheerder WHERE id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM gebruiker WHERE id = ?");
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
             beheerder.setId(resultSet.getInt("id"));
             beheerder.setVoornaam(resultSet.getString("voornaam"));
             beheerder.setAchternaam(resultSet.getString("achternaam"));

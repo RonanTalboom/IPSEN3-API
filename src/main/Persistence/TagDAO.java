@@ -118,6 +118,7 @@ public class TagDAO extends ConnectDAO<Tag> {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM tag WHERE id = ?");
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
 
             tag.setId(resultSet.getInt("id"));
             tag.setNaam(resultSet.getString("naam"));

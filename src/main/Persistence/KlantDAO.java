@@ -71,7 +71,7 @@ public class KlantDAO extends ConnectDAO<Klant> {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-
+            resultSet.next();
             klant.setId(resultSet.getInt("id"));
             klant.setVoornaam(resultSet.getString("voornaam"));
             klant.setAchternaam(resultSet.getString("achternaam"));

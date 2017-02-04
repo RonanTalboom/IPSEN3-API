@@ -4,7 +4,7 @@ assets:
   mappings:
     /assets: /
   overrides:
-         /: ../IPSEN3-CLIENT/IPSEN3-CLIENT/src/
+         /: ../ipsen3/src/
 #      /: ../workshop/workshop-client/public_html/
       #      /: ../IPSEN3-CLIENT/IPSEN3-CLIENT/src/
       #    /: ../TEST-IPSEN3/IPSEN3-CLIENT/public_html/

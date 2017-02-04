@@ -149,6 +149,7 @@ public class BedrijfDAO extends ConnectDAO<Bedrijf> {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
             bedrijf.setId(resultSet.getInt("id"));
             bedrijf.setBedrijfsnaam(resultSet.getString("bedrijfsnaam"));
             bedrijf.setAdres(resultSet.getString("adres"));

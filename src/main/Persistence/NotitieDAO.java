@@ -158,6 +158,7 @@ public class NotitieDAO extends ConnectDAO<Notitie>{
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM notitie WHERE id = ?");
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
 
             Klant klant = new Klant();
             Bedrijf bedrijf = new Bedrijf();

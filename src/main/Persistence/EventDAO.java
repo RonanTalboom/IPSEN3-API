@@ -117,6 +117,7 @@ public class EventDAO extends ConnectDAO<Event>{
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM event WHERE id = ?");
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
 
 
             event.setId(resultSet.getInt("id"));
