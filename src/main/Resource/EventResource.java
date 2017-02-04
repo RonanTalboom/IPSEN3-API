@@ -73,7 +73,6 @@ public class EventResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
     public void create(Event event) {
-        System.out.println("kjndfkjgndkfgnd");
         service.add(event);
     }
 
