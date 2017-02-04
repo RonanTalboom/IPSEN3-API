@@ -62,6 +62,6 @@ public class KlantBedrijfService {
      * @param
      */
     public void delete(int klantId, int bedrijfId) {
-        dao.delete(bedrijfId, klantId);
+        dao.delete(klantId,bedrijfId);
     }
 }
