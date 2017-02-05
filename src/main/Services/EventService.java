@@ -9,19 +9,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by Ruben van Til on 17-1-2017.
+ * Dit is de EventService. Deze klasse is verantwoordelijk voor het communiceren met de EventDAO.
+ *
+ * @author Ruben van Til
+ * @version 1.0, Februari 2017
  */
 public class EventService {
 
     /**
-     *
+     * Object van de DAO. Dit doet de communicatie met de database.
      */
     public EventDAO dao;
 
 
-
     /**
-     * @param dao
+     * Constructor.
+     *
+     * @param dao Injectie van DAO object.
      */
     @Inject
     public EventService(EventDAO dao) {
@@ -29,41 +33,55 @@ public class EventService {
     }
 
     /**
+     * Methode om alle events uit de database op te halen.
      *
+     * @param beheerder Beheerder die gebruikt wordt om opgehaalde events te filteren op de beheerder die de aanvraag doet.
+     * @return Collectie van events die behoren tot meegegeven beheerder.
      */
     public Collection<Event> getAll(Beheerder beheerder) {
         ArrayList<Event> events = new ArrayList<>();
-        for(Event event: dao.select())
-            if(event.getBeheerderId() == (beheerder.getId()))
+        for (Event event : dao.select())
+            if (event.getBeheerderId() == (beheerder.getId()))
                 events.add(event);
         return events;
     }
 
     /**
-     * @param id
+     * Methode om een enkel event op te halen uit de database
+     *
+     * @param id        id van het event dat moet worden opgehaald.
+     * @param beheerder Indien deze beheerder niet de eigenaar is van het object wordt er een null teruggegeven.
+     * @return Event object met het meegegeven id.
      */
-    public Event get(int id) {
-        return dao.select(id);
+    public Event get(Beheerder beheerder, int id) {
+        Event event = dao.select(id);
+        if (event.getBeheerderId() == (beheerder.getId()))
+            return event;
+        return null;
     }
 
     /**
-     * @param event
+     * methode om een event toe te voegen aan de database.
+     *
+     * @param event Het event object dat moet worden toegevoegd aan de database.
      */
     public void add(Event event) {
         dao.insert(event);
     }
 
     /**
-     * @param authenticator
-     * @param id
-     * @param event
+     * Methode om een Event in de database aan te passen
+     *
+     * @param event Nieuwe versie van het event dat moet worden aangepast.
      */
-    public void update(Beheerder authenticator, int id, Event event) {
+    public void update(Event event) {
         dao.update(event);
     }
 
     /**
-     * @param id
+     * Methode om een Event uit de database te verwijderen.
+     *
+     * @param id ID van het Event dat verwijdert moet worden.
      */
     public void delete(int id) {
         dao.delete(id);
