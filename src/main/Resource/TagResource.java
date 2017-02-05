@@ -4,6 +4,8 @@ package main.Resource;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import io.dropwizard.auth.Auth;
+import main.Model.Beheerder;
 import main.Model.Tag;
 import main.Services.TagService;
 import main.View;
@@ -47,7 +49,7 @@ public class TagResource {
      */
     @GET
     @JsonView(View.Public.class)
-    @RolesAllowed("GUEST")
+    @RolesAllowed("BEHEERDER")
     public Collection<Tag> retrieveAll() {
         return service.getAll();
     }
@@ -61,6 +63,7 @@ public class TagResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Public.class)
+    @RolesAllowed("BEHEERDER")
     public void create(Tag tag ) {
         service.add(tag);
     }
@@ -75,8 +78,9 @@ public class TagResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
-    @RolesAllowed("GUEST")
-    public void update(@PathParam("id")int id, Tag tag) {
+    @RolesAllowed("BEHEERDER")
+    public void update(@PathParam("id")int id, @Auth Beheerder authenticator, Tag tag) {
+        System.out.println(authenticator.getName());
         service.update(tag);
     }
 
@@ -87,7 +91,7 @@ public class TagResource {
      */
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("GUEST")
+    @RolesAllowed("BEHEERDER")
     public void delete(@PathParam("id") int id) {
         service.delete(id);
     }

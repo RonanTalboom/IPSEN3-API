@@ -46,7 +46,7 @@ public class BedrijfTagResource {
     @GET
     @Path("/{id}")
     @JsonView(View.Public.class)
-    @RolesAllowed("GUEST")
+    @RolesAllowed("BEHEERDER")
     public Collection<Integer> retrieveAll(@PathParam("id") int bedrijfId) {
         return service.get(bedrijfId);
     }
@@ -63,6 +63,7 @@ public class BedrijfTagResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Public.class)
+    @RolesAllowed("BEHEERDER")
     public void create(@PathParam("id") int bedrijfId, Collection<Integer> tagIDs) {
         service.add(tagIDs,bedrijfId);
     }
@@ -74,7 +75,7 @@ public class BedrijfTagResource {
      */
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("GUEST")
+    @RolesAllowed("BEHEERDER")
     public void delete(@PathParam("id") int bedrijfId) {
         service.delete(bedrijfId);
     }
