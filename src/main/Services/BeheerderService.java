@@ -11,20 +11,21 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 /**
- *
+ * Dit is de  BeheerderService. Dit klasse is verantwoordlijk voor het communiceren met de DOA.
+ * @author Murtaza Aydogdu
+ * @version 1.0, Januari 2017
  */
 @Singleton
 public class BeheerderService {
 
     /**
-     *
+     * Dit is een Object van BeheerderDAO. Dit is nodig om de communiceren met de database.
      */
     public BeheerderDAO dao;
 
-
-
     /**
-     * @param dao
+     * Dit van BeheerderService
+     * @param dao geinjecteerd in de class.
      */
     @Inject
     public BeheerderService(BeheerderDAO dao) {
@@ -32,7 +33,8 @@ public class BeheerderService {
     }
 
     /**
-     *
+     * Methode bedoeldt om alle Beheerders uit de database op te halen.
+     * @return collection van Beheerder.
      */
     public Collection<Beheerder> getAll() {
         return dao.select();
@@ -40,7 +42,8 @@ public class BeheerderService {
     }
 
     /**
-     * @param id
+     * Methode bedoelt voor het ophalen van de juiste Beheerder in de database.
+     * @param id van beheerder.
      */
     public Beheerder get(int id) {
         return dao.select(id);
@@ -48,6 +51,7 @@ public class BeheerderService {
     }
 
     /**
+     * Methode bedoelt voor het toevoegen van een Beheerder in de database.
      * @param beheerder
      */
     public int add(Beheerder beheerder) {
@@ -55,6 +59,7 @@ public class BeheerderService {
     }
 
     /**
+     * Methode bedoelt voor het wijzigen van een Beheerder in de database.
      * @param id
      * @param beheerder
      */
@@ -63,13 +68,18 @@ public class BeheerderService {
     }
 
     /**
+     * Methode bedoelt voor het verwijderen van een Beheerder in de database.
      * @param id
      */
     public void delete(int id, boolean isactief) {
         dao.deleteUndo(id, isactief);
     }
 
-
+    /**
+     * Methode bedoelt voor het ophalen van de juiste beheerdergegevens bij het inloggen.
+     * @param beheerder
+     * @return Beheerder
+     */
     public Beheerder me(Beheerder beheerder){
 
         GenerateHash(beheerder.getWachtwoord());
@@ -82,6 +92,12 @@ public class BeheerderService {
         }
         return null;
     }
+
+    /**
+     * Methode bedoelt dat bij het inloggen de wachtwoord wordt geencrypt.
+     * @param input
+     * @return geencrypte wachtwoord
+     */
     public String GenerateHash(String input){
 
         MessageDigest objSHA = null;
