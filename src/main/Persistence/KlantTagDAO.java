@@ -1,7 +1,5 @@
 package main.Persistence;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import main.Model.KlantTag;
 
 import java.sql.*;

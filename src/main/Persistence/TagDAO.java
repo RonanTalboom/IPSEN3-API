@@ -14,7 +14,6 @@ import java.util.List;
  */
 public class TagDAO extends ConnectDAO<Tag> {
 
-
     /**
      * Deze methode is verantwoordelijk voor het aanpassen van een tag in de tabel.
      */
@@ -40,7 +39,6 @@ public class TagDAO extends ConnectDAO<Tag> {
     @Override
     public void delete(int id) {
         Connection connection = createConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM tag WHERE id = ?");
             preparedStatement.setInt(1, id);
@@ -105,29 +103,11 @@ public class TagDAO extends ConnectDAO<Tag> {
     }
 
     /**
-     * Deze methode is verantwoordelijk voor het uitlezen van een de tags in de tabel.
-     * Met het meegegeven id wordt een model gemaakt.
-     *
+     * Deze methode is niet van toepassing.
      * @param id
      */
     @Override
     public Tag select(int id) {
-        Tag tag = new Tag();
-        Connection connection = createConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM tag WHERE id = ?");
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-
-            tag.setId(resultSet.getInt("id"));
-            tag.setNaam(resultSet.getString("naam"));
-            tag.setBeschrijving(resultSet.getString("beschrijving"));
-            resultSet.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        closeConnection(connection);
-        return tag;
+        return null;
     }
 }

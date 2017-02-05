@@ -1,26 +1,48 @@
 package main.Model;
 
 /**
- * Created by Ruben van Til on 3-2-2017.
+ * Dit is de BedrijfTag class. Hier worden gegevens van een bedrijf en Tag relatie opgeslagen
+ * @author Ruben van Til, Shaban Jama
+ * @version 1.0, februari 2017
  */
 public class BedrijfTag {
-    private int TagId;
-    private int BedrijfId;
 
+    /**
+     * Dit zijn de standaard waardes van de BedrijfTag
+     * tagId en bedrijfId
+     */
+    private int tagId, bedrijfId;
+
+    /**
+     * Methode die de id van de tag returned.
+     * @return tagId
+     */
     public int getTagId() {
-        return TagId;
+        return tagId;
     }
 
+    /**
+     * Methode die de Tagid van de bedrijfTag set.
+     * @param tagId is de id van de bedrijf.
+     */
     public void setTagId(int tagId) {
-        TagId = tagId;
+        this.tagId = tagId;
     }
 
+    /**
+     * Methode die de id van de bedrijf returned.
+     * @return bedrijfID
+     */
     public int getBedrijfId() {
-        return BedrijfId;
+        return bedrijfId;
     }
 
+    /**
+     * Methode die de bedrijfId van de bedrijfTag set.
+     * @param bedrijfId is de id van de bedrijf.
+     */
     public void setBedrijfId(int bedrijfId) {
-        BedrijfId = bedrijfId;
+        this.bedrijfId = bedrijfId;
     }
 }
 
