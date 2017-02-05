@@ -86,7 +86,7 @@ public class TagDAO extends ConnectDAO<Tag> {
         ArrayList<Tag> tags = new ArrayList<>();
         Connection connection = createConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM tag");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM tag ORDER BY naam");
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
