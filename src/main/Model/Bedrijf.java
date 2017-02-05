@@ -1,4 +1,10 @@
 package main.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import main.View;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.util.ArrayList;
 
 /**
@@ -13,16 +19,43 @@ public class Bedrijf {
      * id, bedrijfsnaam, adres, postcode, website,
      * plaats, contactpersoon, telefoon, email, Tags en Actief-status
      */
+    @JsonView(View.Public.class)
     private int id;
+    @NotEmpty
+    @Length(min = 3, max = 30)
+    @JsonView(View.Public.class)
     private String bedrijfsnaam;
+    @NotEmpty
+    @Length(min = 3, max = 100)
+    @JsonView(View.Public.class)
     private String adres;
+    @NotEmpty
+    @Length(min = 6,max = 6)
+    @JsonView(View.Public.class)
     private String postcode;
+    @NotEmpty
+    @Length(min = 3, max = 30)
+    @JsonView(View.Public.class)
     private String website;
+    @NotEmpty
+    @Length(min = 3, max = 30)
+    @JsonView(View.Public.class)
     private String plaats;
+    @NotEmpty
+    @Length(min = 3, max = 100)
+    @JsonView(View.Public.class)
     private String contactpersoon;
+    @NotEmpty
+    @Length(min = 3, max = 100)
+    @JsonView(View.Public.class)
     private String telefoon;
+    @NotEmpty
+    @Length(min = 3, max = 100)
+    @JsonView(View.Public.class)
     private String email;
+    @JsonIgnore
     private ArrayList<Integer> arrTags = new ArrayList<>();
+    @JsonView(View.Public.class)
     private boolean isactief = false;
     /**
      * Methode die de id van de bedrijf returned

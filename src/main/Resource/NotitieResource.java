@@ -12,7 +12,8 @@ import javax.ws.rs.core.MediaType;
 import java.util.Collection;
 
 /**
- *
+ * NotitieResource handelt alle http request af die te maken hebben met de notities.
+ * deze klassen is een singleton.
  */
 @Singleton
 @Produces(MediaType.APPLICATION_JSON)
@@ -21,17 +22,25 @@ public class NotitieResource {
 
 
     /**
+     * dit is de service object. deze is nog om met de services te praten.
      *
      */
     public NotitieService service;
 
+    /**
+     * Deze methode is de constructor hierin wordt de service aangegeven door middel van inject.
+     * @param service
+     */
     @Inject
     public void NotitieResource(NotitieService service) {
         this.service = service;
     }
 
     /**
-     *
+     * deze methode wordt gebruikt om alle notities op te halen.
+     * Alleen beheerders of hoger mag deze aanroepen.
+     * deze methode wordt aangeroepen doormiddel van een get request
+     * @return notities
      */
     @GET
     @JsonView(View.Public.class)
@@ -41,8 +50,11 @@ public class NotitieResource {
     }
 
     /**
-     * 1 notitie ophalen
+     * deze methode is verantwoordelijk om 1 notitie op te halen.
+     * Alleen beheerders of hoger mag deze aanroepen
+     * deze methode wordt aangeroepen door een get request
      * @param id
+     * @return notitie
      */
     @GET
     @Path("/{id}")
@@ -53,7 +65,9 @@ public class NotitieResource {
     }
 
     /**
-     * een nieuwe notitie aanmaken
+     * deze methode is verantwoordelijk om een nieuwe notitie aan te maken
+     * Alleen beheerders of hoger mag deze aanroepen
+     * deze methode wordt gedaan met een Post request
      * @param notitie
      */
     @POST
@@ -66,6 +80,9 @@ public class NotitieResource {
 
     /**
      * één notitie bewerken
+     * Alleen beheerders of hoger mag deze aanroepen
+     * deze methode wordt met een put request aangeroepen. hierbij moet een id en een JSON notitie
+     * worden meegegeven
      * @param id
      * @param notitie
      */
@@ -78,6 +95,9 @@ public class NotitieResource {
     }
 
     /**
+     * Deze methode is verantwoordelijk voor het verwijderen van een notitie
+     * Alleen beheerders of hoger mag deze aanroepen
+     * deze methode wordt aangeroepen met een Delete request. hierbij moet de id worden meegegeven.
      * @param id
      */
     @DELETE
@@ -88,6 +108,14 @@ public class NotitieResource {
     }
 
 
+    /**
+     * Deze methode is verantwoordelijk voor het ophalen van notities die bij een klant horen.
+     * Alleen beheerders of hoger mag deze aanroepen
+     * voor het gebruik van deze methode moet er een id mee gegeven worden en JSON data. dit gebeurt
+     * alleemaal doormiddel van een Get request.
+     * @param id
+     * @return Notities
+     */
     @GET
     @Path("/klant/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -98,6 +126,13 @@ public class NotitieResource {
         return service.getKlantNotitie(id);
     }
 
+    /**
+     * Deze methode is verantwoordelijk voor het ophalen van notities die bij een bedrijf horen
+     * Alleen beheerders of hoger mag deze aanroepen
+     * Deze methode wordt aangeroepen doormiddel van een get request.
+     * @param id
+     * @return notities
+     */
     @GET
     @Path("/bedrijf/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
