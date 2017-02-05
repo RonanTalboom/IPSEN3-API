@@ -8,12 +8,12 @@ import java.util.Collection;
  * extenden van deze klas.
  * Created by Mike,Shaban,Murtaza,Mohamed on 12-10-16.
  *
- * @author Mike, Shaban, Mohamed El Baze, Murtaza
+ * @author Mike, Shaban, Mohamed El Baze, Murtaza, Ruben van Til
  * @version 0.1
  */
 public abstract class ConnectDAO<T> {
     /**
-     * Hier wordt de IP  opgeslagen.
+     * Hier wordt het IP  opgeslagen.
      */
     protected String ip = "145.97.16.190";
     /**
@@ -93,50 +93,4 @@ public abstract class ConnectDAO<T> {
      * Subclasses worden gedwongen om deze methode te verkrijgen
      */
     public abstract T select(int id);
-
-    /**
-     * Zodra deze methode wordt aangeroepen wordt de ip geset.
-     *
-     * @param ip
-     */
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    /**
-     * Zodra deze methode wordt aangeroepen wordt de poortnummer geset.
-     *
-     * @param poortnummer
-     */
-    public void setPoortnummer(String poortnummer) {
-        this.poortnummer = poortnummer;
-    }
-
-    /**
-     * Zodra deze methode wordt aangeroepen wordt de databasenaam geset.
-     *
-     * @param dbNaam
-     */
-    public void setDbNaam(String dbNaam) {
-        DbNaam = dbNaam;
-    }
-
-    /**
-     * Zodra deze methode wordt aangeroepen wordt de DatabaseGebruikersnaam geset.
-     *
-     * @param dbGebruikersnaam
-     */
-    public void setDbGebruikersnaam(String dbGebruikersnaam) {
-        DbGebruikersnaam = dbGebruikersnaam;
-    }
-
-    /**
-     * Zodra deze methode wordt aangeroepen wordt de DatabaseWachtwoord geset.
-     *
-     * @param dbWachtwoord
-     */
-    public void setDbWachtwoord(String dbWachtwoord) {
-        DbWachtwoord = dbWachtwoord;
-    }
-
 }
