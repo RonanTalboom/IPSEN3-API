@@ -1,4 +1,10 @@
 package main.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import main.View;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.sql.Date;
 import java.util.ArrayList;
 
@@ -10,29 +16,58 @@ public class Klant { //implements principal?? que pasa??
     /**
      * Dit zijn de standaard waardes van de klant
      * id, voornaam, achternaam, adres, postcode,
-     * woonplaats, geboortedatum, telefoon, LinkedIn en
-     * email
+     * woonplaats, geboortedatum, telefoon, linkedin,arrTags,arrBedrijven,
+     * email,isActief
      */
-//    @JsonView(View.Public.class)
+    @JsonView(View.Public.class)
     private int id;
-
+    @NotEmpty
+    @Length(min = 3, max = 30)
+    @JsonView(View.Public.class)
     private String voornaam;
+    @NotEmpty
+    @Length(min = 3, max = 30)
+    @JsonView(View.Public.class)
     private String achternaam;
+    @NotEmpty
+    @Length(min = 3, max = 30)
+    @JsonView(View.Public.class)
     private String adres;
+    @NotEmpty
+    @Length(min = 6,max = 6)
+    @JsonView(View.Public.class)
     private String postcode;
+    @NotEmpty
+    @Length(min = 3, max = 30)
+    @JsonView(View.Public.class)
     private String woonplaats;
+    @NotEmpty
+    @Length(min = 3, max = 30)
+    @JsonView(View.Public.class)
     private Date geboortedatum;
+    @NotEmpty
+    @Length(min = 3, max = 100)
+    @JsonView(View.Public.class)
     private String telefoon;
+    @NotEmpty
+    @Length(min = 3, max = 30)
+    @JsonView(View.Public.class)
     private String linkedin;
+    @NotEmpty
+    @Length(min = 3, max = 100)
+    @JsonView(View.Public.class)
     private String email;
+    @JsonIgnore
     private ArrayList<Integer> arrTags = new ArrayList<>();
+    @JsonIgnore
     private ArrayList arrBedrijven = new ArrayList();
+    @JsonView(View.Public.class)
     private boolean isactief= false;
 
 
-    public boolean isactief() {
-        return isactief;
-    }
+    /**
+     * Methode die de isactief van de klant set
+     */
 
     public void setIsactief(boolean isactief) {
         this.isactief = isactief;
@@ -195,18 +230,4 @@ public class Klant { //implements principal?? que pasa??
         this.email = email;
     }
 
-//    @Override
-//    public String toString() {
-//        return voornaam + " " + achternaam;
-//    }
-
-//    @Override
-//    public String getName() {
-//        return null;
-//    }
-//
-//    @Override
-//    public boolean implies(Subject subject) {
-//        return false;
-//    }
 }

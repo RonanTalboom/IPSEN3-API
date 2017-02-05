@@ -5,6 +5,9 @@ import com.google.inject.Singleton;
 import main.Model.Beheerder;
 import main.Persistence.BeheerderDAO;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 /**
@@ -69,6 +72,8 @@ public class BeheerderService {
 
     public Beheerder me(Beheerder beheerder){
 
+        GenerateHash(beheerder.getWachtwoord());
+
         for(Beheerder b : dao.selectActive()){
 
             if(b.getEmail().equals(beheerder.getEmail()) && b.getWachtwoord().equals(beheerder.getWachtwoord())){
@@ -76,6 +81,24 @@ public class BeheerderService {
             }
         }
         return null;
+    }
+    public String GenerateHash(String input){
+
+        MessageDigest objSHA = null;
+        try {
+            objSHA = MessageDigest.getInstance("SHA-512");
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+            byte[] bytSHA = objSHA.digest(input.getBytes());
+            BigInteger intNumber = new BigInteger(1, bytSHA);
+            String strHashCode = intNumber.toString(16);
+
+            while (strHashCode.length() < 128) {
+                strHashCode = "0" + strHashCode;
+            }
+        return strHashCode;
     }
 
 }

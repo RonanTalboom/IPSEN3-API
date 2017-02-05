@@ -1,6 +1,11 @@
 package main.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonView;
+import main.View;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
@@ -12,16 +17,28 @@ public class Bestand {
      * Dit zijn de standaard waardes van de bestand
      * bestand_Id, Klant_Id, fileName
      */
+    @JsonView(View.Public.class)
     private int bestand_Id;
+    @JsonView(View.Public.class)
     private int klant_Id;
+    @NotEmpty
+    @Length(min = 3, max = 100)
+    @JsonView(View.Public.class)
     private String fileName;
+    @JsonView(View.Public.class)
     private String base64;
 
 
+    /**
+     * Methode die de bestand_id van de bestand returned
+     * @return base64
+     */
     public String getBase64() {
         return base64;
     }
-
+    /**
+     * Methode die de klant_id van de base64 set
+     */
     public void setBase64(String base64) {
         this.base64 = base64;
     }

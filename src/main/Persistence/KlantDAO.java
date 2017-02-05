@@ -94,7 +94,7 @@ public class KlantDAO extends ConnectDAO<Klant> {
 
     /**
      * Deze methode zorgt ervoor dat de delete wordt uitgevoerd om
-     * geselecteerde klant te verwijderen.
+     * geselecteerde klant te deactiveren.
      */
     @Override
     public void delete(int id) {
@@ -109,6 +109,10 @@ public class KlantDAO extends ConnectDAO<Klant> {
         closeConnection(connection);
     }
 
+    /**
+     * Deze methode zorgt ervoor dat de delete wordt uitgevoerd om
+     * geselecteerde klant te activeren.
+     */
     public void activeer(int id){
         Connection connection = createConnection();
         try {
@@ -123,7 +127,7 @@ public class KlantDAO extends ConnectDAO<Klant> {
 
     /**
      * Deze methode zorgt ervoor dat de delete wordt uitgevoerd om
-     * geselecteerde klant te verwijderen.
+     * geselecteerde klant te updaten.
      */
     @Override
     public void update(Klant klant) {
