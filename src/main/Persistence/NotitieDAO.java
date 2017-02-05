@@ -17,8 +17,8 @@ import java.util.List;
 /**
  * De NotitieDAO is de DOA die wordt gebruikt voor het communiceren met de notitie Tabel.
  *
- * @author Shaban Jama, Mohammed EL Baze
- * @version 1.0, November 2016
+ * @author Shaban Jama, Mohammed EL Baze, Ronan Talboom
+ * @version 1.0, Februari 2017
  */
 public class NotitieDAO extends ConnectDAO<Notitie>{
     /**
@@ -61,8 +61,10 @@ public class NotitieDAO extends ConnectDAO<Notitie>{
         closeConnection(connection);
     }
 
-    /**
-     * Deze methode is verantwoordelijk voor het verwijderen van een notitie in de tabel.
+
+     /**
+     *Deze methode is verantwoordelijk voor het verwijderen van een notitie in de tabel.
+     * @param id
      */
     @Override
     public void delete(int id) {
@@ -79,6 +81,7 @@ public class NotitieDAO extends ConnectDAO<Notitie>{
 
     /**
      * Deze methode is verantwoordelijk voor het toevoegen van een notitie in de tabel.
+     * @param notitie
      */
     @Override
     public int insert(Notitie notitie) {
@@ -122,8 +125,10 @@ public class NotitieDAO extends ConnectDAO<Notitie>{
 
 
 
+
     /**
      * Deze methode is verantwoordelijk voor het uitlezen van alle notities in de tabel.
+     * @return notities
      */
     @Override
     public List<Notitie> select() {
@@ -148,7 +153,9 @@ public class NotitieDAO extends ConnectDAO<Notitie>{
     }
 
     /**
-     * Deze methode is verantwoordelijk voor het ophalen van een enkele notitie in de tabel.
+     * Deze methode is verantwoordelijk voor het ophalen van een enkele notitie
+     * @param id
+     * @return notitie
      */
     @Override
     public Notitie select(int id) {
@@ -188,7 +195,9 @@ public class NotitieDAO extends ConnectDAO<Notitie>{
     }
 
     /**
-     * Deze methode is verantwoordelijk voor het uitlezen van een de notities in de tabel van een specifieke klant.
+     *  Deze methode is verantwoordelijk voor het ophalen van notities die bij een klant horen.
+     * @param klantId
+     * @return notities
      */
     public List<Notitie> selectbyKlant(int klantId) {
         Connection connection = createConnection();
@@ -212,8 +221,12 @@ public class NotitieDAO extends ConnectDAO<Notitie>{
 
     }
 
+
     /**
-     Deze methode is verantwoordelijk voor het uitlezen van een de notities in de tabel van een specifieke bedrijf.
+     * Deze methode is verantwoordelijk voor het uitlezen van een de notities in de tabel van een specifieke bedrijf.
+
+     * @param bedrijfId
+     * @return notities
      */
     public List<Notitie> selectbyBedrijf(int bedrijfId) {
         Connection connection = createConnection();
