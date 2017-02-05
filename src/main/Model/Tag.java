@@ -1,22 +1,33 @@
 package main.Model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import main.View;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
- * Dit is de Notitie class. Hier worden gegevens van de notitie opgeslagen
+ * Dit is de Tag class. Hier worden gegevens van een tag opgeslagen
  *
  * @author Shaban Jama
  * @version 1.0, November 2016
  */
 public class Tag {
+
     /**
      * Dit zijn de standaard waardes van de tag
      * id, naam en beschrijving
      */
+    @JsonView(View.Public.class)
     private int id;
+    @NotEmpty
+    @Length(min = 3, max = 20)
+    @JsonView(View.Public.class)
     private String naam;
+    @JsonView(View.Public.class)
     private String beschrijving;
 
     /**
-     * Methode die de id van de notitie returned
+     * Methode die de id van de tag returned
      * @return id
      */
     public int getId() {
@@ -25,6 +36,7 @@ public class Tag {
 
     /**
      * Methode die de id van de tag set.
+     * @param id van de tag.
      */
     public void setId(int id) {
         this.id = id;
@@ -40,6 +52,7 @@ public class Tag {
 
     /**
      * Methode die de naam van de tag set.
+     * @param naam van de tag.
      */
     public void setNaam(String naam) {
         this.naam = naam;
@@ -55,6 +68,7 @@ public class Tag {
 
     /**
      * Methode die de beschrijving van de tag set.
+     * @param beschrijving van de tag..
      */
     public void setBeschrijving(String beschrijving) {
         this.beschrijving = beschrijving;

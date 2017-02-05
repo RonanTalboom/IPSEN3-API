@@ -8,64 +8,55 @@ import main.Persistence.TagDAO;
 import java.util.Collection;
 
 /**
+ * Dit is de Tag Service. Dit klasse is verantwoordlijk voor het communiceren met de DOA.
  *
+ * @author Shaban Jama
+ * @version 1.0, Januari 2017
  */
 @Singleton
 public class TagService {
 
     /**
-     *
+     * Dit is een Object van TagDOA. Dit is nodig om de communiceren met de database.
      */
-    public TagDAO dao;
+    private final TagDAO dao;
 
     /**
-     * @param dao
+     * Constructor van TagService
+     * @param dao geinjecteerd in de klasse.
      */
     @Inject
-    public void TagService(TagDAO dao) {
+    public TagService(TagDAO dao) {
         this.dao = dao;
     }
 
     /**
-     *
+     * Methode bedoeldt om alle tags uit de database op te halen.
+     * @return collection van tags.
      */
     public Collection<Tag> getAll() {
-        dao.select();
-        return dao.getObserversTags();
+        return dao.select();
     }
 
     /**
-     * @param id
-     */
-    public Tag get(int id) {
-        dao.select();
-        for (Tag tag: dao.getObserversTags()){
-            if (tag.getId() == (id)) {
-                return tag;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * @param tag
+     * Methode bedoeldt voor het toevoegen van een Tag in de database.
+     * @param tag object met alle nodige waardes.
      */
     public void add(Tag tag) {
-        dao.setTag(tag);
-        dao.insert();
+        dao.insert(tag);
     }
 
     /**
-     * @param id
-     * @param tag
+     * Methode bedoeldt voor het wijzigen van een Tag in de database.
+     * @param tag object met alle nodige waardes.
      */
-    public void update(int id, Tag tag) {
-        dao.setTag(tag);
-        dao.update(id);
+    public void update(Tag tag) {
+        dao.update(tag);
     }
 
     /**
-     * @param id
+     * Methode bedoeldt voor het verwijderen van een Tag in de database.
+     * @param id van de desbetreffende tag.
      */
     public void delete(int id) {
         dao.delete(id);

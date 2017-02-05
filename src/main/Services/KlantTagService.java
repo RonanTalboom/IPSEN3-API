@@ -2,59 +2,66 @@ package main.Services;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import javafx.collections.ObservableList;
+import main.Model.KlantTag;
 import main.Persistence.KlantTagDAO;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
+ * Dit is de KlantTag Service. Dit klasse is verantwoordlijk voor het communiceren met de DOA.
  *
+ * @author Shaban Jama
+ * @version 1.0, Januari 2017
  */
 @Singleton
 public class KlantTagService {
 
     /**
-     *
+     * Dit is een Object van KlantTagDOA. Dit is nodig om de communiceren met de database.
      */
-    public KlantTagDAO dao;
+    private final KlantTagDAO dao;
 
     /**
-     * @param dao
+     * Constructor van KlantTagService
+     * @param dao geinjecteerd in de klasse.
      */
     @Inject
-    public void KlantTagService(KlantTagDAO dao) {
+    public KlantTagService(KlantTagDAO dao) {
         this.dao = dao;
     }
 
     /**
-     * @param klantid
+     * Methode bedoeldt om alle klantTags gekoppeld aan een klant uit de database op te halen.
+     * @param klantId van de desbetreffende klant.
+     * @return Integer collection van tagID's.
      */
-    public ObservableList<Integer> get(int klantid) {
-        dao.setKlantID(klantid);
-        dao.select();
-        return dao.getTagIDs();
-
+    public Collection<Integer> get(int klantId) {
+        return dao.selectByKlant(klantId).stream().map(KlantTag::getTagId).collect(Collectors.toList());
     }
 
     /**
-     * @param tagIDs
-     * @param klantID
+     *
+     * Methode bedoeldt voor het toevoegen van KlantTags in de database.
+     * @param tagIDs Integer collection van tagID's.
+     * @param klantId van de desbetreffende klant.
      */
-    public void add(Collection<Integer> tagIDs, int klantID) {
-        dao.setKlantID(klantID);
-        dao.delete(klantID);
+    public void add(Collection<Integer> tagIDs, int klantId) {
+        delete(klantId);
         for (Integer tagID: tagIDs) {
-            dao.setTagID(tagID);
-            dao.insert();
+            KlantTag klantTag = new KlantTag();
+            klantTag.setKlantId(klantId);
+            klantTag.setTagId(tagID);
+            dao.insert(klantTag);
         }
     }
 
     /**
-     * @param klantID
+     * Methode bedoeldt voor het verwijderen van KlantTags die gekoppeld zijn het betreffende klant in de database.
+     * @param klantId van de desbetreffende klant.
      */
-    public void delete(int klantID) {
-        dao.setKlantID(klantID);
-        dao.delete(klantID);
+    public void delete(int klantId) {
+        dao.delete(klantId);
     }
 
 }

@@ -4,123 +4,88 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import main.Model.Bedrijf;
 import main.Model.Klant;
-import main.Persistence.KlantBedrijfDOA;
+import main.Model.KlantBedrijf;
+import main.Persistence.KlantBedrijfDAO;
 
 import java.util.Collection;
 
 /**
- *
+ * Dit is de KlantBedrijf Service. Dit klasse is verantwoordlijk voor het communiceren met de DOA.
+ * @author Mohamed El Baze
+ * @version 1.0, Januari 2017
  */
 @Singleton
 public class KlantBedrijfService {
     /**
-     *
+     * Dit is een Object van KlantBedrijfDOA. Dit is nodig om de communiceren met de database.
      */
-    public final KlantBedrijfDOA dao;
+    public final KlantBedrijfDAO dao;
 
     /**
-     * Default constructor
+     * Constructor van KlantBedrijfService
+     * @param dao
      */
     @Inject
-    public KlantBedrijfService(KlantBedrijfDOA dao) {
+    public KlantBedrijfService(KlantBedrijfDAO dao) {
         this.dao = dao;
     }
 
-
     /**
-     *
-     */
-//    public BedrijfResource 1;
-
-    /**
-     *
-     */
-//    public KlantBedrijfDOA 1;
-
-    /**
-     * @param dao
-     */
-//    public void BedrijfService(KlantBedrijfDOA dao) {
-//        this.dao = dao;
-//    }
-
-    /**
-     *
+     * Methode bedoeldt om een alle gekoppelde klanten bij een bedrijf uit de database op te halen.
+     * @param id
+     * @return
      */
     public Collection<Klant> getAll(int id) {
-        Bedrijf bedrijf =  new Bedrijf();
-        bedrijf.setId(id);
-        dao.setBedrijf(bedrijf);
-        dao.selectWerkzameKlanten();
-        return dao.getWerkzameKlanten();
+        return dao.selectWerkzameKlanten(id);
     }
 
 
-    public Collection<Klant> getOverigeAll(int id) {
-        Bedrijf bedrijf =  new Bedrijf();
-        bedrijf.setId(id);
-        dao.setBedrijf(bedrijf);
-        dao.selectOverigeKlanten();
-        return dao.getOverigeKlanten();
-    }
-
-    public Collection<Bedrijf> getOverigeBedrijvenAll(int id) {
-        Klant klant = new Klant();
-        klant.setId(id);
-        dao.setKlant(klant);
-        dao.selectOverigebedrijven();
-        return dao.getOverigebedrijven();
-    }
-
-    public Collection<Bedrijf> getAllBedrijven(int id) {
-        Klant klant = new Klant();
-        klant.setId(id);
-        dao.setKlant(klant);
-        dao.select();
-        return dao.getWerkzameBedrijven();
-
-    }
-
-//        /**
-//         * @param id
-//         */
-//    public Bedrijf get(int id) {
-//        dao.select();
-//        for (Bedrijf bedrijf: dao.getObserversBedrijven()){
-//            if (bedrijf.getId() == (id)) {
-//                return bedrijf;
-//            }
-//        }
-//        return null;
-//    }
-//
-//
     /**
-     * @param
+     * Methode bedoeldt om een alle niet gekoppelde klanten bij een bedrijf uit de database op te halen.
+     * @param id
+     * @return
+     */
+    public Collection<Klant> getOverigeAll(int id) {
+        return dao.selectOverigeKlanten(id);
+    }
+
+    /**
+     * Methode bedoeldt om een alle gekoppelde bedrijven bij een klant uit de database op te halen.
+     * @param id
+     * @return
+     */
+    public Collection<Bedrijf> getOverigeBedrijvenAll(int id) {
+        return dao.selectOverigebedrijven(id );
+    }
+
+    /**
+     * Methode bedoeldt om een alle niet gekoppelde bedrijven bij een klant uit de database op te halen.
+     * @param id
+     * @return
+     */
+    public Collection<Bedrijf> getAllBedrijven(int id) {
+        return dao.selectWerkzameBedrijven(id);
+
+    }
+
+    /**
+     * Methode bedoeldt om een een klant/bedrijf te koppelen in de database op te halen.
+     * @param bedrijfID
+     * @param klantID
      */
     public void add(int bedrijfID,int klantID) {
-        Bedrijf bedrijf =  new Bedrijf();
-        bedrijf.setId(bedrijfID);
-        Klant klant = new Klant();
-        klant.setId(klantID);
-        dao.setBedrijf(bedrijf);
-        dao.setKlant(klant);
-        dao.insert();
+        KlantBedrijf klantBedrijf = new KlantBedrijf();
+        klantBedrijf.setKlantId(klantID);
+        klantBedrijf.setBedrijfId(bedrijfID);
+        dao.insert(klantBedrijf);
     }
-//
-//    /**
-//     * @param id
-//     * @param bedrijf
-//     */
-//    public void update(int id, Bedrijf bedrijf) {
-//        dao.setBedrijf(bedrijf);
-//        dao.update(id);
-//    }
-//
+
     /**
-     * @param id
+     * Methode bedoeldt om een een klant/bedrijf te ontkoppelen in de database op te halen.
+     * @param klantId
+     * @param bedrijfId
      */
-    public void delete(int id) {
-        dao.delete(id);
+    public void delete(int klantId, int bedrijfId) {
+        dao.delete(klantId,bedrijfId);
     }
 }

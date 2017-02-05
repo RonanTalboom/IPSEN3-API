@@ -2,95 +2,57 @@ package main.Services;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import javafx.collections.ObservableList;
 import main.Model.Bestand;
-import main.Model.Klant;
 import main.Persistence.KlantFileDAO;
-import main.Resource.KlantFileResource;
-
-import java.io.File;
 import java.util.Collection;
 
 
 /**
+ * Dit is de  KlantFileService. Dit klasse is verantwoordlijk voor het communiceren met de DOA.
  *
+ * @author Mike Uan
+ * @version 1.0, Januari 2017
  */
 @Singleton
 public class KlantFileService {
-
     /**
-     * Default constructor
+     * Dit is een Object van klantFileDao. Dit is nodig om de communiceren met de database.
      */
-    /**
-     *
-     */
-    public KlantFileDAO dao;
-
+    private KlantFileDAO dao;
 
     /**
-     *
-     */
-
-    /**
-     * @param dao
+     * Constructor van KlantFileService
+     * @param dao geinjecteerd in de klasse.
      */
     @Inject
     public  KlantFileService(KlantFileDAO dao) {
         this.dao = dao;
     }
-    public Collection<Bestand> getAll(Klant klant) {
-        dao.select();
-        dao.setKlant(klant);
-        return dao.getObserversBestand();
-    }
-//    /**
-//     * @param id
-//     */
-//    public Bestand get(int id) {
-//       dao.select();
-//        for(Bestand bestand: dao.getObserversBestand()){
-//            if(bestand.getBestand_Id() == id){
-//                return bestand;
-//            }
-//        }
-//        return null;
-//    }
-
-    public ObservableList<Bestand> get(int klantid) {
-        Klant klant = new Klant();
-        klant.setId(klantid);
-        dao.setKlant(klant);
-        dao.select();
-
-        System.out.println("sangam"+ dao.getObserversBestand());
-        return dao.getObserversBestand();
-
-    }
-
-
-
-
 
     /**
-     * @param
+     * Methode bedoeldt om alle bestanden uit de database op te halen.
+     * @return collection van Bestand.
+     */
+    public Collection<Bestand> get(int klantid) {
+        return dao.selectByKlant(klantid);
+
+    }
+
+    /**
+     * Methode bedoeldt voor het toevoegen van een Bestand in de database.
+     * @param bestand object met alle nodige waardes.
      */
     public void add(Bestand bestand) {
-        Klant klant = new Klant();
-        klant.setId(bestand.getKlant_Id());
-        dao.setKlant(klant);
-        dao.setBestand(bestand);
-        dao.insert();
+        dao.insert(bestand);
     }
 
     /**
-     * @param id
+     * Methode bedoeldt voor het verwijderen van een Bestand in de database.
+     * @param id van de desbetreffende bestand.
      */
     public void delete( int id) {
         dao.delete(id);
     }
 
-    public void downloadFile(int id){
-        dao.downloadFile(id);
-    }
 
 }

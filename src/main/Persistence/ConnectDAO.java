@@ -1,6 +1,7 @@
 package main.Persistence;
 
 import java.sql.*;
+import java.util.Collection;
 
 /**
  * Dit is een abstracte class, de dao klasses
@@ -10,24 +11,7 @@ import java.sql.*;
  * @author Mike, Shaban, Mohamed El Baze, Murtaza
  * @version 0.1
  */
-public abstract class ConnectDAO {
-
-    /**
-     * Hier wordt de connection  opgeslagen.
-     */
-    protected Connection connection;
-    /**
-     * Hier wordt de statement  opgeslagen.
-     */
-    protected Statement statement;
-    /**
-     * Hier wordt de PreparedStatement  opgeslagen.
-     */
-    protected PreparedStatement preparedStatement;
-    /**
-     * Hier wordt de ResultSet  opgeslagen.
-     */
-    protected ResultSet resultSet;
+public abstract class ConnectDAO<T> {
     /**
      * Hier wordt de IP  opgeslagen.
      */
@@ -53,69 +37,43 @@ public abstract class ConnectDAO {
     /**
      * Deze methode zorgt ervoor dat de driver ingeladen wordt
      * Vervolgens wordt er een connectie gemaakt.
+     *
+     * @return connection
      */
-    public void connectToDB() {
+    public Connection createConnection() {
         try {
             Class.forName("org.postgresql.Driver");
 
-            connection = DriverManager.getConnection("jdbc:postgresql://" + ip + ":" + poortnummer + "/" +
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://" + ip + ":" + poortnummer + "/" +
                     DbNaam, DbGebruikersnaam, DbWachtwoord);
-            statement = connection.createStatement();
+            return connection;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
 
             e.printStackTrace();
+
         }
+        return null;
     }
 
     /**
-     * Deze methode zorgt ervoor dat de connectie en statement afgesloten wordt
+     * Deze methode zorgt ervoor dat de connectie afgesloten wordt
+     *
+     * @param connection
      */
-    public void closeConnection() {
+    public void closeConnection( Connection connection) {
         try {
             connection.close();
-            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Deze methode zorgt ervoor dat preparedstatetment uitgevoerd worden
-     */
-    public void runPreparedStatemant(String query) {
-        connectToDB();
-        try {
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        closeConnection();
-    }
-
-    /**
-     * Deze methode zorgt ervoor dat die een specifieke id returned
-     */
-    public int runIDstatement(String query) {
-        int id = 0;
-        connectToDB();
-        try {
-            resultSet = statement.executeQuery(query);
-            resultSet.next();
-            id = resultSet.getInt("id");
-            resultSet.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return id;
     }
 
     /**
      * Subclasses worden gedwongen om deze methode te verkrijgen
      */
-    public abstract void update(int id);
+    public abstract void update(T t);
 
     /**
      * Subclasses worden gedwongen om deze methode te verkrijgen
@@ -125,12 +83,16 @@ public abstract class ConnectDAO {
     /**
      * Subclasses worden gedwongen om deze methode te verkrijgen
      */
-    public abstract void insert();
+    public abstract int insert(T t);
 
     /**
      * Subclasses worden gedwongen om deze methode te verkrijgen
      */
-    public abstract void select();
+    public abstract Collection<T> select();
+    /**
+     * Subclasses worden gedwongen om deze methode te verkrijgen
+     */
+    public abstract T select(int id);
 
     /**
      * Zodra deze methode wordt aangeroepen wordt de ip geset.

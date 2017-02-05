@@ -13,63 +13,68 @@ import java.util.*;
 
 
 /**
+ * Dit is de KlantFile Resource. Deze klasse is verantwoordlijk voor het afhandelen van http request.
  *
+ * @author Mike Yan
+ * @version 1.0, Januari 2017
  */
 @Singleton
 @Path("/klantBestand")
 @Produces(MediaType.APPLICATION_JSON)
 public class KlantFileResource {
 
-    /**
-     * Default constructor
-     */
-    public KlantFileResource() {
 
-    }
 
     /**
-     *
+     * Dit is een Object van klantFileService. Dit is nodig om de request aftehandelen.
      */
     public KlantFileService klantFileService;
 
     /**
-     * @param service
+     * constructor van KlantFileResource
+     * @param service geinjecteerd in de klasse.
      */
     @Inject
-    public void KlantFileResource(KlantFileService service) {
-       this.klantFileService = service;
+    public KlantFileResource(KlantFileService service) {
+        this.klantFileService = service;
     }
 
     /**
-     * @param id
+     * Methode voor het ophalen van een bestanden. aanroepbaar via een get request.
+     * Stuurt een collectie van bestanden objecten terug.
+     * @return collection van bestanden.
      */
-
     @GET
     @Path("/{id}")
     @JsonView(View.Public.class)
-    @RolesAllowed("GUEST")
+    @RolesAllowed("BEHEERDER")
     public Collection<Bestand> retrieveAll(@PathParam("id") int id) {
         return klantFileService.get(id);
     }
 
 
     /**
-     * @param id
+     * Methode voor het verwijderen van een Bestand. aanroepbaar via een delete request.
+     * verwacht een id en stuur dit door naar de delete methode van KlantFileService.
+     * @param id van de desbetreffende bestand.
      */
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("GUEST")
+    @RolesAllowed("BEHEERDER")
     public void delete(@PathParam("id") int id) {
         klantFileService.delete(id);
     }
 
-
+    /**
+     * Methode voor het toevoegen van een Bestand. aanroepbaar via een post request.
+     * verwacht een object van Bestand en stuur dit door naar de add methode van klantFileService.
+     * @param bestand object met alle nodige waardes.
+     */
     @POST
-    @Path("/{id}")
+    @RolesAllowed("BEHEERDER")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void create(@PathParam("id") int id, Bestand bestand)
+    public void create(Bestand bestand)
     {
-        System.out.println("sangam"+bestand.getBase64());
       klantFileService.add(bestand);
     }
 
