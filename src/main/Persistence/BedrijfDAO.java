@@ -1,25 +1,22 @@
 package main.Persistence;
 
 import com.google.inject.Singleton;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
-import javafx.collections.FXCollections;
 import main.Model.Bedrijf;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
  * Deze class wordt gebruikt met de database te praten. Het is verantwoordelijk voor het uitvoeren van queries(DLL)
- *
  * @author Mohamed El Baze
- * @version 0.1
- * @date 10/12/16
+ * @version 1.0, Januari 2017
  */
 @Singleton
 public class BedrijfDAO extends ConnectDAO<Bedrijf> {
-
 
     /**
      * Deze methode zorgt ervoor dat de update statement wordt uitgevoerd
@@ -52,8 +49,8 @@ public class BedrijfDAO extends ConnectDAO<Bedrijf> {
     }
 
     /**
-     * Deze methode zorgt ervoor dat de delete statement wordt uitgevoegd.
-     * welke ervoor zorgt dat een geslecteerd bedrijf wordt verwijderd uit de database.
+     * Deze methode zorgt ervoor dat de UPDATE statement wordt uitgevoegd.
+     * welke ervoor zorgt dat een geslecteerd bedrijf wordt gedeactiveerd in de database.
      *
      * @param id
      */
@@ -70,6 +67,11 @@ public class BedrijfDAO extends ConnectDAO<Bedrijf> {
         closeConnection( connection);
     }
 
+    /**
+     * Deze methode zorgt ervoor dat de UPDATE statement wordt uitgevoegd.
+     * welke ervoor zorgt dat een geslecteerd bedrijf wordt geactiveerd in de database.
+     * @param id
+     */
     public void activeer(int id) {
         Connection connection = createConnection();
         try {
@@ -147,7 +149,6 @@ public class BedrijfDAO extends ConnectDAO<Bedrijf> {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM bedrijf WHERE id = ?;");
             preparedStatement.setInt(1, id);
-
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             bedrijf.setId(resultSet.getInt("id"));

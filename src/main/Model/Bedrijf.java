@@ -1,64 +1,28 @@
 package main.Model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
-import main.View;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.security.auth.Subject;
-import java.security.Principal;
 import java.util.ArrayList;
 
 /**
  * Dit is de bedrijf model class. Deze is verantwoordelijk voor alle gegevens
  * van de bedrijf.
  * @author Mohamed El Baze
- * @version 0.1
- * @date 10/13/16
+ * @version 0.1 Januari 2017
  */
-public class Bedrijf implements Principal {
+public class Bedrijf {
     /**
      * Dit zijn de standaard waardes van de bedrijven
      * id, bedrijfsnaam, adres, postcode, website,
-     * plaats, contactpersoon, telefoon, email en Tags
+     * plaats, contactpersoon, telefoon, email, Tags en Actief-status
      */
-    @JsonView(View.Public.class)
     private int id;
-    @NotEmpty
-    @Length(min = 3, max = 30)
-    @JsonView(View.Public.class)
     private String bedrijfsnaam;
-    @NotEmpty
-    @Length(min = 3, max = 100)
-    @JsonView(View.Public.class)
     private String adres;
-    @NotEmpty
-    @Length(min = 6,max = 6)
-    @JsonView(View.Public.class)
     private String postcode;
-    @NotEmpty
-    @Length(min = 3, max = 30)
-    @JsonView(View.Public.class)
     private String website;
-    @NotEmpty
-    @Length(min = 3, max = 30)
-    @JsonView(View.Public.class)
     private String plaats;
-    @NotEmpty
-    @Length(min = 3, max = 100)
-    @JsonView(View.Public.class)
     private String contactpersoon;
-    @NotEmpty
-    @Length(min = 3, max = 100)
-    @JsonView(View.Public.class)
     private String telefoon;
-    @NotEmpty
-    @Length(min = 3, max = 100)
-    @JsonView(View.Public.class)
     private String email;
-    @JsonIgnore
     private ArrayList<Integer> arrTags = new ArrayList<>();
-    @JsonView(View.Public.class)
     private boolean isactief = false;
     /**
      * Methode die de id van de bedrijf returned
@@ -200,27 +164,10 @@ public class Bedrijf implements Principal {
     public void setArrTags(int id) {
         arrTags.add(id);
     }
-
     /**
-     * Methode die de bedrijfsnaam en adres van de bedrijf returned
-     * @return bedrijfsnaam adres
+     * Methode de actief/non-actieve status van bedrijf returned
+     * @param isactief
      */
-    @Override
-    public String toString() {
-        return bedrijfsnaam+", "+adres;
-    }
-
-    @Override
-    @JsonIgnore
-    public String getName() {
-        return bedrijfsnaam+", "+adres;
-    }
-
-    @Override
-    public boolean implies(Subject subject) {
-        return false;
-    }
-
     public void isIsactief(boolean isactief) {
         this.isactief = isactief;
     }
