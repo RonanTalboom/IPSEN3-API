@@ -57,8 +57,8 @@ public class Klant { //implements principal?? que pasa??
     @Length(min = 3, max = 100)
     @JsonView(View.Public.class)
     private String email;
-    @JsonIgnore
-    private ArrayList<Integer> arrTags = new ArrayList<>();
+    @JsonView(View.Public.class)
+    private ArrayList<String> arrTags = new ArrayList<>();
     @JsonIgnore
     private ArrayList arrBedrijven = new ArrayList();
     @JsonView(View.Public.class)
@@ -194,14 +194,14 @@ public class Klant { //implements principal?? que pasa??
      * Methode die de Tags van de klant returned
      * @return arrTags
      */
-    public ArrayList<Integer> getArrTags() {
+    public ArrayList<String> getArrTags() {
         return arrTags;
     }
     /**
      * Methode die de tags van de klant set
      */
-    public void setArrTags(int id) {
-        arrTags.add(id);
+    public void setArrTags(String naam) {
+        arrTags.add(naam);
     }
     /**
      * Methode die de bedrijven van de klant returned

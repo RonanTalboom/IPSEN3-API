@@ -135,7 +135,26 @@ public class BedrijfDAO extends ConnectDAO<Bedrijf> {
             e.printStackTrace();
         }
         closeConnection(connection);
-        return bedrijven;
+        return getTags(bedrijven);
+    }
+
+    public List<Bedrijf> getTags(List<Bedrijf> bedrijfList) {
+        Connection connection = createConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT t.naam FROM bedrijf_has_tag as k" +
+                    " INNER JOIN tag as t on k.tag_id = t.id WHERE bedrijf_id = ?");
+            for (Bedrijf bedrijf: bedrijfList ) {
+                preparedStatement.setInt(1, bedrijf.getId());
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    bedrijf.setArrTags(resultSet.getString("naam"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeConnection(connection);
+        return bedrijfList;
     }
 
     /**

@@ -53,8 +53,8 @@ public class Bedrijf {
     @Length(min = 3, max = 100)
     @JsonView(View.Public.class)
     private String email;
-    @JsonIgnore
-    private ArrayList<Integer> arrTags = new ArrayList<>();
+    @JsonView(View.Public.class)
+    private ArrayList<String> arrTags = new ArrayList<>();
     @JsonView(View.Public.class)
     private boolean isactief = false;
     /**
@@ -187,15 +187,15 @@ public class Bedrijf {
      * Methode die de arrTags van de bedrijf returned
      * @return arrTags
      */
-    public ArrayList<Integer> getArrTags() {
+    public ArrayList<String> getArrTags() {
         return arrTags;
     }
     /**
      * Methode die de arrTags van de bedrijf returned
-     * @param id
+     * @param naam
      */
-    public void setArrTags(int id) {
-        arrTags.add(id);
+    public void setArrTags(String naam) {
+        arrTags.add(naam);
     }
     /**
      * Methode de actief/non-actieve status van bedrijf returned

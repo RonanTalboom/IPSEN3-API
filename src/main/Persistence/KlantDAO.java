@@ -54,6 +54,30 @@ public class KlantDAO extends ConnectDAO<Klant> {
             e.printStackTrace();
         }
         closeConnection(connection);
+        return getTags(klantlist);
+    }
+
+    /**
+     * Deze methode zorgt ervoor dat de select wordt uitgevoerd om
+     * alle klanten te selecteren.
+     */
+
+    public List<Klant> getTags(List<Klant> klantlist) {
+        Connection connection = createConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT t.naam FROM klant_has_tag as k\n" +
+                    "INNER JOIN tag as t on k.tag_id = t.id WHERE klant_id = ?");
+            for (Klant klant: klantlist ) {
+                preparedStatement.setInt(1, klant.getId());
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    klant.setArrTags(resultSet.getString("naam"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeConnection(connection);
         return klantlist;
     }
 
