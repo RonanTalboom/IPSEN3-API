@@ -79,8 +79,7 @@ public class TagResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @JsonView(View.Protected.class)
     @RolesAllowed("BEHEERDER")
-    public void update(@PathParam("id")int id, @Auth Beheerder authenticator, Tag tag) {
-        System.out.println(authenticator.getName());
+    public void update(@PathParam("id")int id, Tag tag) {
         service.update(tag);
     }
 
